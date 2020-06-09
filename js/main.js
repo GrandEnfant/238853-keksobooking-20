@@ -1,5 +1,5 @@
 'use strict';
-
+var OBJECTS_NUMBER = 8;
 var map = document.querySelector('.map');
 var generateRandom = function (min, max) {
   min = Math.ceil(min);
@@ -17,23 +17,37 @@ var checkouts = [
   '14:00'
 ];
 var features = [
-  'wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
 ];
-var photos = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+var photos = [
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+];
+var avatarsNumber = [];
 
-
-var AvatarsNumber = [];
+var getLocations = function () {
+  var locationArray = [];
+  for (var i = 0; i < OBJECTS_NUMBER; i++) {
+    locationArray[i] = {x: generateRandom(0, map.offsetWidth), y: generateRandom(130, 630)}
+  }
+  console.log(locationArray);
+  return locationArray;
+};
 
 var getAvatar = function () {
-  while (AvatarsNumber.length < 8) {
+  while (avatarsNumber.length < 8) {
     var randomNumber = generateRandom(1, 9);
-    if (AvatarsNumber.includes(randomNumber)) {
+    if (avatarsNumber.includes(randomNumber)) {
       continue;
     } else {
       var addressAvatar = 'img/avatars/user0' + randomNumber + '.png';
-      AvatarsNumber.push(randomNumber);
+      avatarsNumber.push(randomNumber);
       break;
     }
   }
@@ -42,14 +56,15 @@ var getAvatar = function () {
 
 var generateObjects = function () {
   var objectsArray = [];
-  for (var i = 0; i < 8; i++) {
-    var objectPattern = {
+  var locations = getLocations();
+  for (var i = 0; i < OBJECTS_NUMBER; i++) {
+    objectsArray[i] = {
       author: {
         avatar: getAvatar(),
       },
       offer: {
         title: 'Очень большой дом',
-        address: 'location.' + generateRandom(0, map.offsetWidth) + ', location.' + generateRandom(0, 630),
+        address: locations[i],
         price: generateRandom(10, 10000),
         type: generateRandom(1, 5),
         rooms: generateRandom(0, 10),
@@ -61,12 +76,12 @@ var generateObjects = function () {
         photos: photos,
       },
       location: {
-        x: generateRandom(0, map.offsetWidth),
-        y: generateRandom(130, 630),
+        x: locations[i].x,
+        y: locations[i].y,
       }
     };
-    objectsArray[i] = objectPattern;
   }
+  console.log(objectsArray);
   return objectsArray;
 };
 
