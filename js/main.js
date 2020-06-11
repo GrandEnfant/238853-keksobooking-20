@@ -6,17 +6,17 @@ var generateRandom = function (min, max) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min;
 };
-var chekins = [
+var CHECKINS = [
   '12:00',
   '13:00',
   '14:00'
 ];
-var checkouts = [
+var CHOCKOUTS = [
   '12:00',
   '13:00',
   '14:00'
 ];
-var features = [
+var FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -24,12 +24,19 @@ var features = [
   'elevator',
   'conditioner'
 ];
-var photos = [
+var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
-var avatarsNumber = [];
+
+var TYPES = {
+  palace: 'Дворец',
+  flat: 'Квартира',
+  house: 'Дом',
+  bungalo: 'Бунгало',
+};
+
 
 var getLocations = function () {
   var locationArray = [];
@@ -40,7 +47,9 @@ var getLocations = function () {
   return locationArray;
 };
 
+
 var getAvatar = function () {
+  var avatarsNumber = []; // is global variable??
   while (avatarsNumber.length < 8) {
     var randomNumber = generateRandom(1, 9);
     if (avatarsNumber.includes(randomNumber)) {
@@ -54,9 +63,18 @@ var getAvatar = function () {
   return addressAvatar;
 };
 
+var getValueType = function () {
+  var keysTypes = Object.keys(TYPES);
+  var random = generateRandom(0, keysTypes.length);
+  var key = keysTypes[random];
+  return TYPES[key];
+};
+
+
 var generateObjects = function () {
   var objectsArray = [];
-  var locations = getLocations();
+  var locationX = getLocations(0, map.offsetWidth);
+  var locationY = getLocations(130, 630);
   for (var i = 0; i < OBJECTS_NUMBER; i++) {
     objectsArray[i] = {
       author: {
@@ -64,24 +82,23 @@ var generateObjects = function () {
       },
       offer: {
         title: 'Очень большой дом',
-        address: locations[i],
+        address: locationX + locationY,
         price: generateRandom(10, 10000),
-        type: generateRandom(1, 5),
-        rooms: generateRandom(0, 10),
+        type:  getValueType(),
+        rooms: generateRandom(1, 10),
         guests: generateRandom(0, 10),
-        checkin: chekins[generateRandom(0, chekins.length)],
-        checkout: checkouts[generateRandom(0, checkouts.length)],
-        features: features,
+        checkin: CHECKINS[generateRandom(0, CHECKINS.length)],
+        checkout: CHOCKOUTS[generateRandom(0, CHOCKOUTS.length)],
+        features: FEATURES,
         description: 'Как 224этажка в Мурино',
-        photos: photos,
+        photos: PHOTOS,
       },
       location: {
-        x: locations[i].x,
-        y: locations[i].y,
+        x: locationX,
+        y: locationY,
       }
     };
   }
-  console.log(objectsArray);
   return objectsArray;
 };
 
@@ -102,7 +119,70 @@ var getPin = function (data) {
 for (var i = 0; i < arrayData.length; i++) {
   var pin = getPin(arrayData[i]);
   fragmentPins.appendChild(pin);
+  console.log(fragmentPins);
 }
 
 mapPins.appendChild(fragmentPins);
 map.classList.remove('map--faded');
+
+var card = document.querySelector('#card');
+var getCard = function (data) {
+var clonedCard = card.content.cloneNode(true);
+var photos =  data[0].offer.photos;
+var fragmentImg = document.createDocumentFragment();
+
+  var getPhotos = function () {
+    var clonedPhotos = clonedCard.querySelector('.popup__photos');
+    var clonedImg = clonedPhotos.querySelector('img');
+    for(var i = 0; i < photos.length; i++) {
+      clonedImg.src = photos[i];
+      fragmentImg.appendChild(clonedImg);
+      console.log(fragmentImg);
+    }
+    return fragmentImg;
+  };
+
+  console.log(clonedCard);
+  var title = clonedCard.querySelector('.popup__title');
+  console.log(title);
+  title.textContent = data[0].offer.title;
+
+  var address = clonedCard.querySelector('.popup__text--address');
+  address.textContent = data[0].offer.address;
+  console.log(address);
+
+  var price = clonedCard.querySelector('.popup__text--price');
+  price.textContent = data[0].offer.price + '₽/ночь';
+  console.log(price);
+
+  var type = clonedCard.querySelector('.popup__type');
+  console.log( data[0].offer.type);
+  type.textContent = data[0].offer.type;
+  console.log(type);
+
+  var roomsNumber = clonedCard.querySelector('.popup__text--capacity');
+  console.log(roomsNumber);
+  roomsNumber.textContent = data[0].offer.rooms;
+  console.log(roomsNumber);
+
+  var check = clonedCard.querySelector('.popup__text--time');
+  check.textContent = 'Заезд после ' + data[0].offer.checkin + ', ' + ' выезд до ' + data[0].offer.checkout;
+  console.log(check);
+
+  var features = clonedCard.querySelector('.popup__features');
+  features.textContent = data[0].offer.features.join(', ');
+  console.log(features);
+
+  var description = clonedCard.querySelector('.popup__description');
+  description.textContent = data[0].offer.description;
+  console.log(description);
+  // getPhotos();
+  // clonedCard.querySelector('img').src = data[0].author.avatar;
+
+
+  console.log(getPhotos());
+
+  // photos = getPhotos();
+// console.log(photos)
+};
+getCard(arrayData);
