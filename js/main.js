@@ -9,12 +9,12 @@ var generateRandom = function (min, max) {
 var CHECKINS = [
   '12:00',
   '13:00',
-  '14:00'
+  '14:00',
 ];
 var CHOCKOUTS = [
   '12:00',
   '13:00',
-  '14:00'
+  '14:00',
 ];
 var FEATURES = [
   'wifi',
@@ -22,7 +22,7 @@ var FEATURES = [
   'parking',
   'washer',
   'elevator',
-  'conditioner'
+  'conditioner',
 ];
 var PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
@@ -38,53 +38,42 @@ var TYPES = {
 };
 
 
-var getLocations = function () {
-  var locationArray = [];
-  for (var i = 0; i < OBJECTS_NUMBER; i++) {
-    locationArray[i] = {x: generateRandom(0, map.offsetWidth), y: generateRandom(130, 630)}
-  }
-  console.log(locationArray);
-  return locationArray;
-};
-
-
-var getAvatar = function () {
-  var avatarsNumber = []; // is global variable??
-  while (avatarsNumber.length < 8) {
-    var randomNumber = generateRandom(1, 9);
-    if (avatarsNumber.includes(randomNumber)) {
-      continue;
-    } else {
-      var addressAvatar = 'img/avatars/user0' + randomNumber + '.png';
-      avatarsNumber.push(randomNumber);
-      break;
+var getAvatar = function() {
+  var listAvatars = [];
+  var listSrcAvatar = [];
+  for(var i = 0; listAvatars.length < 8; i++) {
+    var random = generateRandom(1, 9);
+    if(!listAvatars.includes(random)) {
+      var addressAvatar = 'img/avatars/user0' + random + '.png';
+      listAvatars.push(random);
+      listSrcAvatar.push(addressAvatar);
     }
   }
-  return addressAvatar;
+return listSrcAvatar;
 };
 
 var getValueType = function () {
-  var keysTypes = Object.keys(TYPES);
-  var random = generateRandom(0, keysTypes.length);
-  var key = keysTypes[random];
+  var keysType = Object.keys(TYPES);
+  var random = generateRandom(0, keysType.length);
+  var key = keysType[random];
   return TYPES[key];
 };
 
-
 var generateObjects = function () {
-  var objectsArray = [];
-  var locationX = getLocations(0, map.offsetWidth);
-  var locationY = getLocations(130, 630);
+  var objects = [];
+  var listAvatarsSrc = getAvatar();
   for (var i = 0; i < OBJECTS_NUMBER; i++) {
-    objectsArray[i] = {
+    var locationX = generateRandom(0, map.offsetWidth);
+    var locationY = generateRandom(130, 630);
+    objects[i] = {
       author: {
-        avatar: getAvatar(),
+        avatar: listAvatarsSrc[i],
       },
       offer: {
         title: 'Очень большой дом',
         address: locationX + locationY,
         price: generateRandom(10, 10000),
-        type:  getValueType(),
+        type: getValueType(),
         rooms: generateRandom(1, 10),
         guests: generateRandom(0, 10),
         checkin: CHECKINS[generateRandom(0, CHECKINS.length)],
@@ -99,12 +88,12 @@ var generateObjects = function () {
       }
     };
   }
-  return objectsArray;
+  return objects;
 };
 
 var arrayData = generateObjects();
 var pinButton = document.querySelector('.map__pin');
-var mapPins = document.querySelector('.map__pins');
+var mapPin = document.querySelector('.map__pins');
 var fragmentPins = document.createDocumentFragment();
 
 var getPin = function (data) {
@@ -119,70 +108,61 @@ var getPin = function (data) {
 for (var i = 0; i < arrayData.length; i++) {
   var pin = getPin(arrayData[i]);
   fragmentPins.appendChild(pin);
-  console.log(fragmentPins);
 }
 
-mapPins.appendChild(fragmentPins);
+mapPin.appendChild(fragmentPins);
 map.classList.remove('map--faded');
 
+
 var card = document.querySelector('#card');
-var getCard = function (data) {
-var clonedCard = card.content.cloneNode(true);
-var photos =  data[0].offer.photos;
-var fragmentImg = document.createDocumentFragment();
 
-  var getPhotos = function () {
+var fragmentImgs = document.createDocumentFragment();
+
+var getPhotos = function (data) {
+  var photos = data[0].offer.photos;
+  for (var j = 0; j < photos.length; j++) {
+    var clonedCard = card.content.cloneNode(true);
     var clonedPhotos = clonedCard.querySelector('.popup__photos');
-    var clonedImg = clonedPhotos.querySelector('img');
-    for(var i = 0; i < photos.length; i++) {
-      clonedImg.src = photos[i];
-      fragmentImg.appendChild(clonedImg);
-      console.log(fragmentImg);
-    }
-    return fragmentImg;
-  };
+    var img = clonedPhotos.querySelector('img');
+    img.src = photos[j];
+    fragmentImgs.appendChild(img);
+  }
+  return fragmentImgs;
+};
 
-  console.log(clonedCard);
+var getCard = function (data) {
+  var clonedCard = card.content.cloneNode(true);
+
   var title = clonedCard.querySelector('.popup__title');
-  console.log(title);
   title.textContent = data[0].offer.title;
 
   var address = clonedCard.querySelector('.popup__text--address');
   address.textContent = data[0].offer.address;
-  console.log(address);
 
   var price = clonedCard.querySelector('.popup__text--price');
-  price.textContent = data[0].offer.price + '₽/ночь';
-  console.log(price);
+  price.textContent = data[0].offer.price + ' ₽/ночь';
 
   var type = clonedCard.querySelector('.popup__type');
-  console.log( data[0].offer.type);
   type.textContent = data[0].offer.type;
-  console.log(type);
 
   var roomsNumber = clonedCard.querySelector('.popup__text--capacity');
-  console.log(roomsNumber);
   roomsNumber.textContent = data[0].offer.rooms;
-  console.log(roomsNumber);
 
   var check = clonedCard.querySelector('.popup__text--time');
   check.textContent = 'Заезд после ' + data[0].offer.checkin + ', ' + ' выезд до ' + data[0].offer.checkout;
-  console.log(check);
 
   var features = clonedCard.querySelector('.popup__features');
   features.textContent = data[0].offer.features.join(', ');
-  console.log(features);
 
   var description = clonedCard.querySelector('.popup__description');
   description.textContent = data[0].offer.description;
-  console.log(description);
-  // getPhotos();
-  // clonedCard.querySelector('img').src = data[0].author.avatar;
 
-
-  console.log(getPhotos());
-
-  // photos = getPhotos();
-// console.log(photos)
+  var photos = clonedCard.querySelector('.popup__photos');
+  var img = photos.querySelector('img');
+  var template = getPhotos(data);
+  photos.replaceChild(template, img);
+  return clonedCard;
 };
-getCard(arrayData);
+var dataCard = getCard(arrayData);
+var filtersContainer = document.querySelector('.map__filters-container');
+filtersContainer.appendChild(dataCard);
