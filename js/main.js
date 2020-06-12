@@ -14,7 +14,7 @@ var chekins = [
 var checkouts = [
   '12:00',
   '13:00',
-  '14:00'
+  '14:00',
 ];
 var features = [
   'wifi',
@@ -22,12 +22,12 @@ var features = [
   'parking',
   'washer',
   'elevator',
-  'conditioner'
+  'conditioner',
 ];
 var photos = [
   'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
-  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg',
 ];
 
 var getLocations = function () {
@@ -35,7 +35,6 @@ var getLocations = function () {
   for (var i = 0; i < OBJECTS_NUMBER; i++) {
     locationArray[i] = {x: generateRandom(0, map.offsetWidth), y: generateRandom(130, 630)}
   }
-  console.log(locationArray);
   return locationArray;
 };
 
