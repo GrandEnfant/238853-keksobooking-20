@@ -38,18 +38,18 @@ var TYPES = {
 };
 
 
-var getAvatar = function() {
+var getAvatar = function () {
   var listAvatars = [];
   var listSrcAvatar = [];
-  for(var i = 0; listAvatars.length < 8; i++) {
+  for (var i = 0; listAvatars.length < 8; i++) {
     var random = generateRandom(1, 9);
-    if(!listAvatars.includes(random)) {
+    if (!listAvatars.includes(random)) {
       var addressAvatar = 'img/avatars/user0' + random + '.png';
       listAvatars.push(random);
       listSrcAvatar.push(addressAvatar);
     }
   }
-return listSrcAvatar;
+  return listSrcAvatar;
 };
 
 var getValueType = function () {
