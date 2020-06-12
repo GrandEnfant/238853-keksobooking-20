@@ -29,7 +29,6 @@ var photos = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
-var avatarsNumber = [];
 
 var getLocations = function () {
   var locationArray = [];
@@ -40,27 +39,28 @@ var getLocations = function () {
   return locationArray;
 };
 
-var getAvatar = function () {
-  while (avatarsNumber.length < 8) {
-    var randomNumber = generateRandom(1, 9);
-    if (avatarsNumber.includes(randomNumber)) {
-      continue;
-    } else {
-      var addressAvatar = 'img/avatars/user0' + randomNumber + '.png';
-      avatarsNumber.push(randomNumber);
-      break;
+var getAvatar = function() {
+  var listAvatars = [];
+  var listSrcAvatar = [];
+  for(var i = 0; listAvatars.length < 8; i++) {
+    var random = generateRandom(1, 9);
+    if(!listAvatars.includes(random)) {
+      var addressAvatar = 'img/avatars/user0' + random + '.png';
+      listAvatars.push(random);
+      listSrcAvatar.push(addressAvatar);
     }
   }
-  return addressAvatar;
+  return listSrcAvatar;
 };
 
 var generateObjects = function () {
   var objectsArray = [];
   var locations = getLocations();
+  var listAvatars = getAvatar();
   for (var i = 0; i < OBJECTS_NUMBER; i++) {
     objectsArray[i] = {
       author: {
-        avatar: getAvatar(),
+        avatar: listAvatars[i],
       },
       offer: {
         title: 'Очень большой дом',
