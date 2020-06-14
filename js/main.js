@@ -37,7 +37,7 @@ var TYPES = {
   bungalo: 'Бунгало',
 };
 
-var renderAds = function() {
+var renderAds = function () {
   var getValueType = function () {
     var keysType = Object.keys(TYPES);
     var random = generateRandom(0, keysType.length);
@@ -111,12 +111,9 @@ var renderAds = function() {
     fragmentPins.appendChild(pin);
   }
   mapPin.appendChild(fragmentPins);
-}
-
-
+};
 
 // var card = document.querySelector('#card');
-//
 // var fragmentImgs = document.createDocumentFragment();
 
 // var getPhotos = function (data) {
@@ -173,92 +170,84 @@ var renderAds = function() {
 
 var mapPinMain = document.querySelector('.map__pin--main');
 var fieldset = document.querySelector('fieldset');
-var adForm = document.querySelector(".ad-form")
+var adForm = document.querySelector('.ad-form');
 var adFormFieldset = adForm.querySelector('fieldset');
 fieldset.disabled = true;
 adFormFieldset.disabled = true;
 var adFormMapFilters = document.querySelectorAll('.map__filter');
-for (var filter of adFormMapFilters) {
-  filter.disabled = true;
+for (var i = 0; i < adFormMapFilters.length; i++) {
+  adFormMapFilters[i].disabled = true;
 }
 var addressField = document.querySelector('#address');
-addressField.placeholder = `${parseInt(mapPinMain.style.left)}, ${parseInt(mapPinMain.style.top)}`;
-console.log(mapPinMain);
-
-console.log(mapPinMain.length);
+addressField.placeholder = parseInt(mapPinMain.style.left, 10) + ', ' + parseInt(mapPinMain.style.top, 10);
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     applyActive();
-    var addressField = document.querySelector('#address');
-    addressField.placeholder = `${evt.x} , ${evt.y}`;
-    console.log(addressField);
+    addressField.placeholder = evt.x + ', ' + evt.y;
   }
-})
+});
 
 mapPinMain.addEventListener('keydown', function (evt) {
-  if (evt.code === "Enter") {
+  if (evt.code === 'Enter') {
     applyActive();
   }
-})
+});
 var filterSelect = function () {
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
-  rooms.addEventListener("change", function () {
+  rooms.addEventListener('change', function () {
     switch (rooms.value) {
-      case("1"): {
-        for (var i = 0; i < capacityOptions.length; i++) {
-          if (capacityOptions[i].text === "для 1 гостя") {
-            capacityOptions[i].disabled = false;
+      case ('1'): {
+        for (var j = 0; j < capacityOptions.length; j++) {
+          if (capacityOptions[j].text === 'для 1 гостя') {
+            capacityOptions[j].disabled = false;
             continue;
           }
-          capacityOptions[i].disabled = true;
+          capacityOptions[j].disabled = true;
         }
         break;
       }
-      case("2"): {
-        for (var i = 0; i < capacityOptions.length; i++) {
-          if (capacityOptions[i].text === "для 2 гостей" || capacityOptions[i].text === "для 1 гостя") {
-            capacityOptions[i].disabled = false;
+      case ('2'): {
+        for (var k = 0; k < capacityOptions.length; k++) {
+          if (capacityOptions[k].text === 'для 2 гостей' || capacityOptions[k].text === 'для 1 гостя') {
+            capacityOptions[k].disabled = false;
             continue;
           }
-          capacityOptions[i].disabled = true;
+          capacityOptions[k].disabled = true;
         }
         break;
       }
-      case("3"): {
-        for (var i = 0; i < capacityOptions.length; i++) {
-          if (capacityOptions[i].text === "для 2 гостей" || capacityOptions[i].text === "для 1 гостя" || capacityOptions[i].text === "для 3 гостей") {
-            capacityOptions[i].disabled = false;
+      case ('3'): {
+        for (var n = 0; n < capacityOptions.length; n++) {
+          if (capacityOptions[n].text === 'для 2 гостей' || capacityOptions[n].text === 'для 1 гостя' || capacityOptions[n].text === 'для 3 гостей') {
+            capacityOptions[n].disabled = false;
             continue;
           }
-          capacityOptions[i].disabled = true;
+          capacityOptions[n].disabled = true;
         }
         break;
       }
-      case("100"): {
-        for (var i = 0; i < capacityOptions.length; i++) {
-          if (capacityOptions[i].text === "не для гостей") {
-            capacityOptions[i].disabled = false;
+      case ('100'): {
+        for (var m = 0; m < capacityOptions.length; m++) {
+          if (capacityOptions[m].text === 'не для гостей') {
+            capacityOptions[m].disabled = false;
             continue;
           }
-          capacityOptions[i].disabled = true;
+          capacityOptions[m].disabled = true;
         }
         break;
       }
     }
   });
-}
+};
 var applyActive = function () {
   renderAds();
   filterSelect();
   map.classList.remove('map--faded');
   fieldset.disabled = false;
-  adForm.classList.remove(".ad-form--disabled");
+  adForm.classList.remove('.ad-form--disabled');
   adFormFieldset.disabled = false;
-  for(var filter of adFormMapFilters) {
-    filter.disabled = false;
+  for (var l = 0; l < adFormMapFilters.length; l++) {
+    adFormMapFilters[l].disabled = false;
   }
-}
-
-
-
+};
