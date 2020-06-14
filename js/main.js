@@ -92,11 +92,13 @@ var renderAds = function() {
 
   var arrayData = generateObjects();
   var pinButton = document.querySelector('.map__pin');
+
   var mapPin = document.querySelector('.map__pins');
   var fragmentPins = document.createDocumentFragment();
 
   var getPin = function (data) {
     var clonedElement = pinButton.cloneNode(true);
+    // clonedElement.classList.remove('map__pin--main');
     clonedElement.style.left = data.location.x + clonedElement.querySelector('img').width + 'px';
     clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';
     clonedElement.querySelector('img').src = data.author.avatar;
@@ -166,28 +168,31 @@ var renderAds = function() {
 // var filtersContainer = document.querySelector('.map__filters-container');
 // filtersContainer.appendChild(dataCard);
 
-
 // map.classList.remove('map--faded');
 
 
-
-
-
-  var fieldset = document.querySelector('fieldset');
-  var adForm = document.querySelector(".ad-form")
-  var adFormFieldset = adForm.querySelector('fieldset');
-  fieldset.disabled = true;
-  adFormFieldset.disabled = true;
-  var adFormMapFilters = document.querySelectorAll('.map__filter');
-  for (var filter of adFormMapFilters) {
-    filter.disabled = true;
-  }
-
 var mapPinMain = document.querySelector('.map__pin--main');
-  mapPinMain.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
-      applyActive();
-    }
+var fieldset = document.querySelector('fieldset');
+var adForm = document.querySelector(".ad-form")
+var adFormFieldset = adForm.querySelector('fieldset');
+fieldset.disabled = true;
+adFormFieldset.disabled = true;
+var adFormMapFilters = document.querySelectorAll('.map__filter');
+for (var filter of adFormMapFilters) {
+  filter.disabled = true;
+}
+var addressField = document.querySelector('#address');
+addressField.placeholder = `${parseInt(mapPinMain.style.left)}, ${parseInt(mapPinMain.style.top)}`;
+console.log(mapPinMain);
+
+console.log(mapPinMain.length);
+mapPinMain.addEventListener('mousedown', function (evt) {
+  if (evt.button === 0) {
+    applyActive();
+    var addressField = document.querySelector('#address');
+    addressField.placeholder = `${evt.x} , ${evt.y}`;
+    console.log(addressField);
+  }
 })
 
 mapPinMain.addEventListener('keydown', function (evt) {
@@ -195,9 +200,57 @@ mapPinMain.addEventListener('keydown', function (evt) {
     applyActive();
   }
 })
-
+var filterSelect = function () {
+  var rooms = document.querySelector('#room_number');
+  var capacityOptions = document.querySelector('#capacity').options;
+  rooms.addEventListener("change", function () {
+    switch (rooms.value) {
+      case("1"): {
+        for (var i = 0; i < capacityOptions.length; i++) {
+          if (capacityOptions[i].text === "для 1 гостя") {
+            capacityOptions[i].disabled = false;
+            continue;
+          }
+          capacityOptions[i].disabled = true;
+        }
+        break;
+      }
+      case("2"): {
+        for (var i = 0; i < capacityOptions.length; i++) {
+          if (capacityOptions[i].text === "для 2 гостей" || capacityOptions[i].text === "для 1 гостя") {
+            capacityOptions[i].disabled = false;
+            continue;
+          }
+          capacityOptions[i].disabled = true;
+        }
+        break;
+      }
+      case("3"): {
+        for (var i = 0; i < capacityOptions.length; i++) {
+          if (capacityOptions[i].text === "для 2 гостей" || capacityOptions[i].text === "для 1 гостя" || capacityOptions[i].text === "для 3 гостей") {
+            capacityOptions[i].disabled = false;
+            continue;
+          }
+          capacityOptions[i].disabled = true;
+        }
+        break;
+      }
+      case("100"): {
+        for (var i = 0; i < capacityOptions.length; i++) {
+          if (capacityOptions[i].text === "не для гостей") {
+            capacityOptions[i].disabled = false;
+            continue;
+          }
+          capacityOptions[i].disabled = true;
+        }
+        break;
+      }
+    }
+  });
+}
 var applyActive = function () {
   renderAds();
+  filterSelect();
   map.classList.remove('map--faded');
   fieldset.disabled = false;
   adForm.classList.remove(".ad-form--disabled");
@@ -206,3 +259,6 @@ var applyActive = function () {
     filter.disabled = false;
   }
 }
+
+
+
