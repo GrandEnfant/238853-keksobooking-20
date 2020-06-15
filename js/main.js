@@ -98,7 +98,6 @@ var renderAds = function () {
 
   var getPin = function (data) {
     var clonedElement = pinButton.cloneNode(true);
-    // clonedElement.classList.remove('map__pin--main');
     clonedElement.style.left = data.location.x + clonedElement.querySelector('img').width + 'px';
     clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';
     clonedElement.querySelector('img').src = data.author.avatar;
