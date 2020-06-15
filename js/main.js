@@ -1,11 +1,8 @@
 'use strict';
+
+//этот кусок пойдет в один модуль, его назовем renderAds
 var OBJECTS_NUMBER = 8;
 var map = document.querySelector('.map');
-var generateRandom = function (min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-};
 var CHECKINS = [
   '12:00',
   '13:00',
@@ -36,12 +33,22 @@ var TYPES = {
   bungalo: 'Бунгало',
 };
 
+/**
+ * @description Function renders ads
+ */
+
 var renderAds = function () {
-  var getValueType = function () {
-    var keysType = Object.keys(TYPES);
+
+  var generateRandom = function (min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+  };
+  var getObjectValue = function (obj) {
+    var keysType = Object.keys(obj);
     var random = generateRandom(0, keysType.length);
     var key = keysType[random];
-    return TYPES[key];
+    return obj[key];
   };
   var getAvatar = function () {
     var listAvatars = [];
@@ -55,6 +62,14 @@ var renderAds = function () {
       }
     }
     return listSrcAvatar;
+  };
+  var getPin = function (data) {
+    var clonedElement = pinButton.cloneNode(true);
+    clonedElement.style.left = data.location.x + clonedElement.querySelector('img').width + 'px';
+    clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';
+    clonedElement.querySelector('img').src = data.author.avatar;
+    clonedElement.querySelector('img').alt = data.offer.title;
+    return clonedElement;
   };
 
   var generateObjects = function () {
@@ -71,12 +86,12 @@ var renderAds = function () {
           title: 'Очень большой дом',
           address: locationX + locationY,
           price: generateRandom(10, 10000),
-          type: getValueType(),
+          type: getObjectValue(TYPES),
           rooms: generateRandom(1, 10),
           guests: generateRandom(0, 10),
           checkin: CHECKINS[generateRandom(0, CHECKINS.length)],
           checkout: CHOCKOUTS[generateRandom(0, CHOCKOUTS.length)],
-          features: FEATURES,
+          features: getObjectValue(FEATURES),
           description: 'Как 224этажка в Мурино',
           photos: PHOTOS,
         },
@@ -89,28 +104,22 @@ var renderAds = function () {
     return objects;
   };
 
-  var arrayData = generateObjects();
-  var pinButton = document.querySelector('.map__pin');
+  var arrayData = generateObjects(); // тут вызов генерирования тех самых объявлений
+  var pinButton = document.querySelector('.map__pin'); //нашли куда поставить пины объявлений
   var mapPin = document.querySelector('.map__pins');
-  var fragmentPins = document.createDocumentFragment();
-
-  var getPin = function (data) {
-    var clonedElement = pinButton.cloneNode(true);
-    clonedElement.style.left = data.location.x + clonedElement.querySelector('img').width + 'px';
-    clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';
-    clonedElement.querySelector('img').src = data.author.avatar;
-    clonedElement.querySelector('img').alt = data.offer.title;
-    return clonedElement;
-  };
-
+  var fragmentPins = document.createDocumentFragment(); // сюда соберем все пины объявлений
+  // начинаем создавать пины и складывать их в фрагмент
   for (var i = 0; i < arrayData.length; i++) {
     var pin = getPin(arrayData[i]);
     fragmentPins.appendChild(pin);
   }
   mapPin.appendChild(fragmentPins);
 };
+//тут кусок заканчивается
+
+
 //
-// var generateCard = function () {
+// var renderAdCard = function () {
 //   var card = document.querySelector('#card');
 //   var fragmentImgs = document.createDocumentFragment();
 //
@@ -166,30 +175,52 @@ var renderAds = function () {
 //   map.classList.remove('map--faded');
 // };
 
+//много переменных для каждого необходимого для активации и дизактивации поля
 var mapPinMain = document.querySelector('.map__pin--main');
+var addressField = document.querySelector('#address');
 var fieldset = document.querySelector('fieldset');
 var adForm = document.querySelector('.ad-form');
 var adFormFieldset = adForm.querySelector('fieldset');
-fieldset.disabled = true;
-adFormFieldset.disabled = true;
 var adFormMapFilters = document.querySelectorAll('.map__filter');
-for (var i = 0; i < adFormMapFilters.length; i++) {
-  adFormMapFilters[i].disabled = true;
-}
-var addressField = document.querySelector('#address');
-addressField.placeholder = parseInt(mapPinMain.style.left, 10) + ', ' + parseInt(mapPinMain.style.top, 10);
-mapPinMain.addEventListener('mousedown', function (evt) {
-  if (evt.button === 0) {
-    applyActive();
-    addressField.placeholder = evt.x + ', ' + evt.y;
+
+var applyInactive = function () {
+  fieldset.disabled = true;
+  adFormFieldset.disabled = true;
+  for (var i = 0; i < adFormMapFilters.length; i++) {
+    adFormMapFilters[i].disabled = true;
   }
-});
+  addressField.placeholder = parseInt(mapPinMain.style.left, 10) + ', ' + parseInt(mapPinMain.style.top, 10);
+};
+applyInactive();
+
+var applyActive = function () {
+  renderAds();
+  filterSelect();
+  map.classList.remove('map--faded');
+  fieldset.disabled = false;
+  adForm.classList.remove('ad-form--disabled');
+  adFormFieldset.disabled = false;
+  for (var l = 0; l < adFormMapFilters.length; l++) {
+    adFormMapFilters[l].disabled = false;
+  }
+};
+
+
+mapPinMain.addEventListener('mousedown', function (evt) {
+    if (evt.button === 0) {
+      applyActive();
+      addressField.placeholder = evt.x + ', ' + evt.y;
+    }
+  });
 
 mapPinMain.addEventListener('keydown', function (evt) {
   if (evt.code === 'Enter') {
     applyActive();
   }
 });
+
+
+//тут устанавливаем фильтрацию при выборе
 var filterSelect = function () {
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
@@ -238,14 +269,4 @@ var filterSelect = function () {
     }
   });
 };
-var applyActive = function () {
-  renderAds();
-  filterSelect();
-  map.classList.remove('map--faded');
-  fieldset.disabled = false;
-  adForm.classList.remove('ad-form--disabled');
-  adFormFieldset.disabled = false;
-  for (var l = 0; l < adFormMapFilters.length; l++) {
-    adFormMapFilters[l].disabled = false;
-  }
-};
+//тут закончили устанавливать фильтрацию при выборе
