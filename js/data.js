@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
   var OBJECTS_NUMBER = 8;
 
@@ -31,9 +33,6 @@
     bungalo: 'Бунгало',
   };
 
-  /**
-   * generateRandom Function return
-   */
   var generateRandom = function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -63,7 +62,7 @@
     var objects = [];
     var listAvatarsSrc = getAvatar();
     for (var i = 0; i < OBJECTS_NUMBER; i++) {
-      var locationX = generateRandom(0, map.offsetWidth);
+      var locationX = generateRandom(0, window.map.offsetWidth);
       var locationY = generateRandom(130, 630);
       objects[i] = {
         author: {
@@ -90,7 +89,5 @@
     }
     return objects;
   };
-
-
 })();
 

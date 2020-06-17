@@ -1,3 +1,4 @@
+'use strict';
 
 (function () {
   var card = document.querySelector('#card');
@@ -48,7 +49,7 @@
     photos.replaceChild(template, img);
     return clonedCard;
   };
-  var dataCard = getCard(arrayData);
+  var dataCard = getCard(window.arrayData);
   var filtersContainer = document.querySelector('.map__filters-container');
   filtersContainer.appendChild(dataCard);
 

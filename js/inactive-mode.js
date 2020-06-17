@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
 
   var fieldset = document.querySelector('fieldset');
@@ -14,5 +16,5 @@
   for (var i = 0; i < adFormMapFilters.length; i++) {
     adFormMapFilters[i].disabled = true;
   }
-  addressField.placeholder = parseInt(mapPinMain.style.left, 10) + ', ' + parseInt(mapPinMain.style.top, 10);
+  window.addressField.placeholder = parseInt(window.mapPinMain.style.left, 10) + ', ' + parseInt(window.mapPinMain.style.top, 10);
 }());
