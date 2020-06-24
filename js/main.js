@@ -1,11 +1,8 @@
 'use strict';
 
-var mapPinMain = document.querySelector('.map__pin--main');
-window.mapPinMain = mapPinMain;
-var addressField = document.querySelector('#address');
-window.addressField = addressField;
-var map = document.querySelector('.map');
-window.map = map;
+window.mapPinMain = document.querySelector('.map__pin--main');
+window.addressField = document.querySelector('#address');
+window.map = document.querySelector('.map');
 
 mapPinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
