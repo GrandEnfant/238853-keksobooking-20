@@ -58,35 +58,37 @@
     return listSrcAvatar;
   };
 
-  window.generateObjects = function () {
-    var objects = [];
-    var listAvatarsSrc = getAvatar();
-    for (var i = 0; i < OBJECTS_NUMBER; i++) {
-      var locationX = generateRandom(0, window.map.offsetWidth);
-      var locationY = generateRandom(130, 630);
-      objects[i] = {
-        author: {
-          avatar: listAvatarsSrc[i],
-        },
-        offer: {
-          title: 'Очень большой дом',
-          address: locationX + locationY,
-          price: generateRandom(10, 10000),
-          type: getObjectValue(TYPES),
-          rooms: generateRandom(1, 10),
-          guests: generateRandom(0, 10),
-          checkin: CHECKINS[generateRandom(0, CHECKINS.length)],
-          checkout: CHOCKOUTS[generateRandom(0, CHOCKOUTS.length)],
-          features: getObjectValue(FEATURES),
-          description: 'Как 224этажка в Мурино',
-          photos: PHOTOS,
-        },
-        location: {
-          x: locationX,
-          y: locationY,
-        }
-      };
-    }
-    return objects;
+  window.data = {
+    generateObjects: function () {
+      var objects = [];
+      var listAvatarsSrc = getAvatar();
+      for (var i = 0; i < OBJECTS_NUMBER; i++) {
+        var locationX = generateRandom(0, window.main.map.offsetWidth);
+        var locationY = generateRandom(130, 630);
+        objects[i] = {
+          author: {
+            avatar: listAvatarsSrc[i],
+          },
+          offer: {
+            title: 'Очень большой дом',
+            address: locationX + locationY,
+            price: generateRandom(10, 10000),
+            type: getObjectValue(TYPES),
+            rooms: generateRandom(1, 10),
+            guests: generateRandom(0, 10),
+            checkin: CHECKINS[generateRandom(0, CHECKINS.length)],
+            checkout: CHOCKOUTS[generateRandom(0, CHOCKOUTS.length)],
+            features: getObjectValue(FEATURES),
+            description: 'Как 224этажка в Мурино',
+            photos: PHOTOS,
+          },
+          location: {
+            x: locationX,
+            y: locationY,
+          }
+        };
+      }
+      return objects;
+    },
   };
 })();

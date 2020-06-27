@@ -1,6 +1,20 @@
 'use strict';
 
 (function () {
+  window.adForm = document.querySelector('.ad-form');
+  window.form = {
+    applyActiveForm: function () {
+      for (var l = 0; l < window.main.adFormMapFilters.length; l++) {
+        window.main.adFormMapFilters[l].disabled = false;
+      }
+    },
+    fieldsets: document.querySelectorAll('fieldset')
+  };
+  for (var i = 0; i < window.form.fieldsets.length; i++) {
+    window.form.fieldsets[i].disabled = true;
+  }
+  var addressField = document.querySelector('#address');
+  addressField.placeholder = parseInt(window.main.mapPinMain.style.left, 10) + ', ' + parseInt(window.main.mapPinMain.style.top, 10);
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
   rooms.addEventListener('change', function () {
