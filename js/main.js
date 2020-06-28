@@ -1,6 +1,5 @@
 'use strict';
 
-
 window.main = {
   mapPinMain: document.querySelector('.map__pin--main'),
   map: document.querySelector('.map'),
@@ -8,10 +7,7 @@ window.main = {
 };
 
 var applyActiveMode = function () {
-  window.form.applyActiveForm();
-  for (var i = 0; i < window.form.fieldsets.length; i++) {
-    window.form.fieldsets[i].disabled = false;
-  }
+  window.form.setDisableForm(false);
   var data = window.data.generateObjects();
   window.map.renderAds(data);
   window.main.map.classList.remove('map--faded');
