@@ -2,9 +2,8 @@
 
 (function () {
   window.pin = {
-    getPin: function (data) {
-      var pinButton = document.querySelector('.map__pin');
-      var clonedElement = pinButton.cloneNode(true);
+    getPin: function (pin, data) {
+      var clonedElement = pin.cloneNode(true);
       clonedElement.style.left = data.location.x + clonedElement.querySelector('img').width + 'px';
       clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';
       clonedElement.querySelector('img').src = data.author.avatar;

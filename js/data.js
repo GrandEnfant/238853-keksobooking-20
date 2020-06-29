@@ -2,7 +2,6 @@
 
 (function () {
   var OBJECTS_NUMBER = 8;
-
   var CHECKINS = [
     '12:00',
     '13:00',
@@ -88,7 +87,6 @@
     }
     return objects;
   };
-
   window.data = {
     generateObjects: generateObjects,
   };

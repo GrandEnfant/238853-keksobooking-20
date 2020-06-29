@@ -1,20 +1,21 @@
 'use strict';
 
 (function () {
-  var adForm = document.querySelector('.ad-form');
-  var fieldsets = document.querySelectorAll('fieldset');
-  var setDisableForm = function (isActive) {
+  var rooms = document.querySelector('#room_number');
+  var capacityOptions = document.querySelector('#capacity').options;
+
+  var setDisableForm = function (isActive, fieldsets, tokens, form) {
+    if (!isActive) {
+      form.classList.remove(tokens);
+    }
     for (var l = 0; l < fieldsets.length; l++) {
       fieldsets[l].disabled = isActive;
     }
   };
-  setDisableForm(true);
-  var addressField = document.querySelector('#address');
-  var fillAddress = function (pin) {
+  var fillAddress = function (addressField, pin) {
     addressField.placeholder = parseInt(pin.style.left, 10) + ', ' + parseInt(pin.style.top, 10);
   };
-  var rooms = document.querySelector('#room_number');
-  var capacityOptions = document.querySelector('#capacity').options;
+
   rooms.addEventListener('change', function () {
     switch (rooms.value) {
       case ('1'): {
@@ -60,8 +61,6 @@
     }
   });
   window.form = {
-    adForm: adForm,
-    fieldsets: fieldsets,
     setDisableForm: setDisableForm,
     fillAddress: fillAddress
   };
