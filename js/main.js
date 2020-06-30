@@ -14,7 +14,10 @@ window.form.setDisableForm(true, fieldsets);
 var applyActiveMode = function () {
   window.form.setDisableForm(false, fieldsets, 'ad-form--disabled', adForm);
   window.form.fillAddress(addressField, mapPinMain);
-  var data = window.data.generateObjects(mapWidth);
+  var data = window.load.loadData(
+    
+
+  );
   window.map.renderAds(mapSelectors, data, window.pin.getPin, pinButton);
 };
 
