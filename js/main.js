@@ -9,16 +9,20 @@ var mapSelectors = {
   mapPin: document.querySelector('.map__pins'),
   mapPlace: document.querySelector('.map'),
 };
-var mapWidth = mapSelectors.mapPlace.offsetWidth;
+var url = 'https://javascript.pages.academy/keksobooking/data';
+
 window.form.setDisableForm(true, fieldsets);
 var applyActiveMode = function () {
   window.form.setDisableForm(false, fieldsets, 'ad-form--disabled', adForm);
   window.form.fillAddress(addressField, mapPinMain);
-  var data = window.load.loadData(
-    
-
-  );
-  window.map.renderAds(mapSelectors, data, window.pin.getPin, pinButton);
+  window.load.loadData(function (ads) {
+    window.map.renderAds(mapSelectors, ads, window.pin.getPin, pinButton);
+  },
+  function () {
+    var errorPlace = document.querySelector('#error');
+    var clonedError = errorPlace.content.cloneNode(true);
+    mapSelectors.mapPin.appendChild(clonedError);
+  }, url);
 };
 
 mapPinMain.addEventListener('mousedown', function (evt) {

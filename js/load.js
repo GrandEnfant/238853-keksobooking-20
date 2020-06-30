@@ -2,8 +2,7 @@
 
 (function () {
 
-  var loadData = function (onSuccess, onError) {
-    var URL = 'https://javascript.pages.academy/keksobooking/data';
+  var loadData = function (onSuccess, onError, url) {
     var StatusCode = {
       OK: 200,
     };
@@ -23,9 +22,11 @@
       onError('Время ожидания истекло');
     });
     xhr.timeout = 10000;
-    xhr.open('GET', URL);
+    xhr.open('GET', url);
     xhr.send();
   };
-  window.loadData = loadData;
+  window.load = {
+    loadData: loadData
+  };
 })();
 
