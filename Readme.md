@@ -1,7 +1,11 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ольга](https://up.htmlacademy.ru/javascript/20/user/238853).
+<<<<<<< Updated upstream
 * Наставник: `Алексей Чимочихин`.
+=======
+* Наставник: `Марк Коваленко`.
+>>>>>>> Stashed changes
 
 ---
 

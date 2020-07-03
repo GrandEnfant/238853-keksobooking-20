@@ -8,6 +8,7 @@
       clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';
       clonedElement.querySelector('img').src = data.author.avatar;
       clonedElement.querySelector('img').alt = data.offer.title;
+      clonedElement.classList.add('rendered-pin');
       return clonedElement;
     }
   };

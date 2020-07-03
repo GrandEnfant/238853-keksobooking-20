@@ -4,6 +4,7 @@
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
 
+
   var setDisableForm = function (isActive, fieldsets, tokens, form) {
     if (!isActive) {
       form.classList.remove(tokens);
@@ -60,6 +61,11 @@
       }
     }
   });
+
+
+
+
+
   window.form = {
     setDisableForm: setDisableForm,
     fillAddress: fillAddress
