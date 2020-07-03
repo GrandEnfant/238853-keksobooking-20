@@ -10,16 +10,15 @@
     mapSelectors.mapPlace.classList.remove('map--faded');
     mapSelectors.mapPin.appendChild(fragmentPins);
   };
-  var removePins = function () {
+  var removePins = function (mapSelectors) {
     var pins = document.querySelectorAll('.rendered-pin');
-    pins.forEach(function(elem) {
+    pins.forEach(function (elem) {
       mapSelectors.mapPin.removeChild(elem);
-    })
-
+    });
   };
-  var upDateMap = function (mapSelectors, ads, getPin, pinButton) {
-    removePins();
-    var sameHousingType = ads.filter(function(it) {
+  var upDateMap = function (mapSelectors, ads, getPin, pinButton, housingType) {
+    removePins(mapSelectors);
+    var sameHousingType = ads.filter(function (it) {
       return it.offer.type === housingType.value || housingType.value === 'any';
     });
     renderAds(mapSelectors, sameHousingType, getPin, pinButton);
