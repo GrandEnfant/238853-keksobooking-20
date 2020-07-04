@@ -11,33 +11,19 @@ var mapSelectors = {
 };
 var url = 'https://javascript.pages.academy/keksobooking/data';
 var housingType = document.querySelector('#housing-type');
-var ADS_NUMBER = 5;
-var DEBOUNCE_INTERVAL = 3000;
 
-var debounce = function (cb, adsSlice) {
-  var lastTimeout;
-  if (lastTimeout) {
-    window.clearTimeout(lastTimeout);
-  }
-  lastTimeout = window.setTimeout(function () {
-    cb(
-        mapSelectors,
-        adsSlice,
-        window.pin.getPin,
-        pinButton,
-        housingType
-    );
-  }, DEBOUNCE_INTERVAL);
-};
 window.form.setDisableForm(true, fieldsets);
 var applyActiveMode = function () {
   window.form.setDisableForm(false, fieldsets, 'ad-form--disabled', adForm);
   window.form.fillAddress(addressField, mapPinMain);
   window.load.loadData(function (ads) {
-    var adsSlice = ads.slice(0, ADS_NUMBER);
-    window.map.renderAds(mapSelectors, adsSlice, window.pin.getPin, pinButton);
+    window.map.renderAds(mapSelectors, ads, window.pin.getPin, pinButton);
     housingType.addEventListener('change', function () {
-      debounce(window.map.upDateMap, adsSlice);
+      var filteredAds = window.filteres.dataFilter(ads);
+     window.map.upDateMap(mapSelectors,
+       filteredAds,
+        window.pin.getPin,
+        pinButton);
     });
   },
   function () {
