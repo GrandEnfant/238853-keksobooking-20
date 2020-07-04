@@ -19,11 +19,11 @@ var applyActiveMode = function () {
   window.load.loadData(function (ads) {
     window.map.renderAds(mapSelectors, ads, window.pin.getPin, pinButton);
     housingType.addEventListener('change', function () {
-      var filteredAds = window.filteres.dataFilter(ads);
-     window.map.upDateMap(mapSelectors,
-       filteredAds,
-        window.pin.getPin,
-        pinButton);
+      var filteredAds = window.filteres.dataFilter(ads, housingType);
+      window.map.upDateMap(mapSelectors,
+          filteredAds,
+          window.pin.getPin,
+          pinButton);
     });
   },
   function () {
