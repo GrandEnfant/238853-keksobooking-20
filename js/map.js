@@ -2,26 +2,27 @@
 
 (function () {
 
-  var ADS_NUMBER = 5;
-  var renderAds = function (mapSelectors, data, getPin, pinButton) {
-    var adsSlice = data.slice(0, ADS_NUMBER);
+  var renderAds = function (removePin, mapPin, mapPlace, data, getPin, selector) {
+    var pinButton = document.querySelector(selector);
+    var pinSelector = document.querySelector(mapPin);
+    var mapSelector = document.querySelector(mapPlace);
+    var removePinsSelector = document.querySelectorAll(removePin);
+    removePins(removePinsSelector, pinSelector);
     var fragmentPins = document.createDocumentFragment();
-    for (var i = 0; i < adsSlice.length; i++) {
-      var pin = getPin(pinButton, adsSlice[i]);
+    for (var i = 0; i < data.length; i++) {
+      var pin = getPin(pinButton, data[i]);
       fragmentPins.appendChild(pin);
     }
-    mapSelectors.mapPlace.classList.remove('map--faded');
-    mapSelectors.mapPin.appendChild(fragmentPins);
+    mapSelector.classList.remove('map--faded');
+    pinSelector.appendChild(fragmentPins);
   };
-  var removePins = function (mapSelectors) {
-    var pins = document.querySelectorAll('.rendered-pin');
-    pins.forEach(function (elem) {
-      mapSelectors.mapPin.removeChild(elem);
+  var removePins = function (removePinsSelector, mapPin) {
+    removePinsSelector.forEach(function (elem) {
+      mapPin.removeChild(elem);
     });
   };
-  var upDateMap = function (mapSelectors, ads, getPin, pinButton) {
-    removePins(mapSelectors);
-    renderAds(mapSelectors, ads, getPin, pinButton);
+  var upDateMap = function (removePin, mapPin, mapPlace, ads, getPin, selector) {
+    renderAds(removePin, mapPin, mapPlace, ads, getPin, selector);
   };
   window.map = {
     renderAds: renderAds,

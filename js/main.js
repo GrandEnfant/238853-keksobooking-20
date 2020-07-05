@@ -1,45 +1,42 @@
 'use strict';
 
-var mapPinMain = document.querySelector('.map__pin--main');
-var adForm = document.querySelector('.ad-form');
-var fieldsets = adForm.querySelectorAll('fieldset');
-var addressField = document.querySelector('#address');
-var pinButton = document.querySelector('.map__pin');
-var mapSelectors = {
-  mapPin: document.querySelector('.map__pins'),
-  mapPlace: document.querySelector('.map'),
-};
+var ADS_NUMBER = 5;
 var url = 'https://javascript.pages.academy/keksobooking/data';
 var housingType = document.querySelector('#housing-type');
+var pinSelector = document.querySelector('.map__pin--main');
+window.form.setDisableForm(true, 'fieldset', 'ad-form--disabled', '.ad-form');
 
-window.form.setDisableForm(true, fieldsets);
 var applyActiveMode = function () {
-  window.form.setDisableForm(false, fieldsets, 'ad-form--disabled', adForm);
-  window.form.fillAddress(addressField, mapPinMain);
+  window.form.setDisableForm(false, 'fieldset', 'ad-form--disabled', '.ad-form');
+  window.form.fillAddress('#address', '.map__pin--main');
   window.load.loadData(function (ads) {
-    window.map.renderAds(mapSelectors, ads, window.pin.getPin, pinButton);
+    var adsSlice = ads.slice(0, ADS_NUMBER);
+    window.map.renderAds('.rendered-pin', '.map__pins', '.map', adsSlice, window.pin.getPin, '.map__pin');
     housingType.addEventListener('change', function () {
-      var filteredAds = window.filteres.dataFilter(ads, housingType);
-      window.map.upDateMap(mapSelectors,
+      var filteredAds = window.filters.dataFilter(ads, '#housing-type').slice(0, ADS_NUMBER);
+      window.map.upDateMap(
+          '.rendered-pin',
+          '.map__pins',
+          '.map',
           filteredAds,
           window.pin.getPin,
-          pinButton);
+          '.map__pin');
     });
   },
   function () {
     var errorPlace = document.querySelector('#error');
     var clonedError = errorPlace.content.cloneNode(true);
-    mapSelectors.mapPin.appendChild(clonedError);
+    pinSelector.appendChild(clonedError);
   }, url);
 };
 
-mapPinMain.addEventListener('mousedown', function (evt) {
+pinSelector.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     applyActiveMode();
   }
 });
 
-mapPinMain.addEventListener('keydown', function (evt) {
+pinSelector.addEventListener('keydown', function (evt) {
   if (evt.code === 'Enter') {
     applyActiveMode();
   }

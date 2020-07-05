@@ -5,15 +5,19 @@
   var capacityOptions = document.querySelector('#capacity').options;
 
   var setDisableForm = function (isActive, fieldsets, tokens, form) {
+    var formSelector = document.querySelector(form);
+    var fieldsetSelector = formSelector.querySelectorAll(fieldsets);
     if (!isActive) {
-      form.classList.remove(tokens);
+      formSelector.classList.remove(tokens);
     }
-    for (var l = 0; l < fieldsets.length; l++) {
-      fieldsets[l].disabled = isActive;
+    for (var l = 0; l < fieldsetSelector.length; l++) {
+      fieldsetSelector[l].disabled = isActive;
     }
   };
-  var fillAddress = function (addressField, pin) {
-    addressField.placeholder = parseInt(pin.style.left, 10) + ', ' + parseInt(pin.style.top, 10);
+  var fillAddress = function (selector, pin) {
+    var mapPinMain = document.querySelector(pin);
+    var addressField = document.querySelector(selector);
+    addressField.placeholder = parseInt(mapPinMain.style.left, 10) + ', ' + parseInt(mapPinMain.style.top, 10);
   };
 
   rooms.addEventListener('change', function () {
