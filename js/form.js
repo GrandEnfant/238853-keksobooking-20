@@ -3,7 +3,6 @@
 (function () {
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
-  var mapPinMainNode = document.querySelector('.map__pin--main');
   var addressFieldNode = document.querySelector('#address');
   var formNode = document.querySelector('.ad-form');
   var fieldsetNode = formNode.querySelectorAll('fieldset');
@@ -16,8 +15,8 @@
       fieldsetNode[l].disabled = isActive;
     }
   };
-  var fillAddress = function () {
-    addressFieldNode.placeholder = parseInt(mapPinMainNode.style.left, 10) + ', ' + parseInt(mapPinMainNode.style.top, 10);
+  var fillAddress = function (pinCoordinate) {
+    addressFieldNode.placeholder = pinCoordinate;
   };
 
   rooms.addEventListener('change', function () {

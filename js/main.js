@@ -4,11 +4,14 @@ var ADS_NUMBER = 5;
 var url = 'https://javascript.pages.academy/keksobooking/data';
 var housingType = document.querySelector('#housing-type');
 var pinNode = document.querySelector('.map__pin--main');
+var mapPinMainNode = document.querySelector('.map__pin--main');
+var pinCoordinate = parseInt(mapPinMainNode.style.left, 10) + ', ' + parseInt(mapPinMainNode.style.top, 10);
+
 window.form.setDisableForm(true);
 
 var applyActiveMode = function () {
   window.form.setDisableForm(false);
-  window.form.fillAddress();
+  window.form.fillAddress(pinCoordinate);
   window.load.loadData(function (ads) {
     var adsSlice = ads.slice(0, ADS_NUMBER);
     var initAdsFragment = window.map.createAds(adsSlice, window.pin.getPin);
