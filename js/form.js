@@ -3,17 +3,20 @@
 (function () {
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
+  var addressFieldNode = document.querySelector('#address');
+  var formNode = document.querySelector('.ad-form');
+  var fieldsetNode = formNode.querySelectorAll('fieldset');
 
-  var setDisableForm = function (isActive, fieldsets, tokens, form) {
+  var setDisableForm = function (isActive) {
     if (!isActive) {
-      form.classList.remove(tokens);
+      formNode.classList.remove('ad-form--disabled');
     }
-    for (var l = 0; l < fieldsets.length; l++) {
-      fieldsets[l].disabled = isActive;
+    for (var l = 0; l < fieldsetNode.length; l++) {
+      fieldsetNode[l].disabled = isActive;
     }
   };
-  var fillAddress = function (addressField, pin) {
-    addressField.placeholder = parseInt(pin.style.left, 10) + ', ' + parseInt(pin.style.top, 10);
+  var fillAddress = function (pinCoordinate) {
+    addressFieldNode.placeholder = pinCoordinate;
   };
 
   rooms.addEventListener('change', function () {
