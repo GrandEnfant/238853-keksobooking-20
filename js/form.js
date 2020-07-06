@@ -3,21 +3,21 @@
 (function () {
   var rooms = document.querySelector('#room_number');
   var capacityOptions = document.querySelector('#capacity').options;
+  var mapPinMainNode = document.querySelector('.map__pin--main');
+  var addressFieldNode = document.querySelector('#address');
+  var formNode = document.querySelector('.ad-form');
+  var fieldsetNode = formNode.querySelectorAll('fieldset');
 
-  var setDisableForm = function (isActive, fieldsets, tokens, form) {
-    var formSelector = document.querySelector(form);
-    var fieldsetSelector = formSelector.querySelectorAll(fieldsets);
+  var setDisableForm = function (isActive) {
     if (!isActive) {
-      formSelector.classList.remove(tokens);
+      formNode.classList.remove('ad-form--disabled');
     }
-    for (var l = 0; l < fieldsetSelector.length; l++) {
-      fieldsetSelector[l].disabled = isActive;
+    for (var l = 0; l < fieldsetNode.length; l++) {
+      fieldsetNode[l].disabled = isActive;
     }
   };
-  var fillAddress = function (selector, pin) {
-    var mapPinMain = document.querySelector(pin);
-    var addressField = document.querySelector(selector);
-    addressField.placeholder = parseInt(mapPinMain.style.left, 10) + ', ' + parseInt(mapPinMain.style.top, 10);
+  var fillAddress = function () {
+    addressFieldNode.placeholder = parseInt(mapPinMainNode.style.left, 10) + ', ' + parseInt(mapPinMainNode.style.top, 10);
   };
 
   rooms.addEventListener('change', function () {
