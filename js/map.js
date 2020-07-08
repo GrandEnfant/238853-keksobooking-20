@@ -9,7 +9,7 @@
   var createAds = function (data, getPin) {
     var fragmentPins = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
-      var pin = getPin(pinButton, data[i]);
+      var pin = getPin(pinButton, data[i], i);
       fragmentPins.appendChild(pin);
     }
     return fragmentPins;
