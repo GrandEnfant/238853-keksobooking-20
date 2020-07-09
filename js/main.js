@@ -22,10 +22,19 @@ var applyActiveMode = function () {
     });
     var renderedPins = document.querySelectorAll('.rendered-pin');
     renderedPins.forEach(function (item) {
-      item.addEventListener('mousedown', function (evt) {
-        var id = evt.currentTarget.id;
-        var dataCard = window.card.generateCard(ads[id]);
-        window.popup.showCard(dataCard);
+      item.addEventListener('click', function (evt) {
+        if (evt.button === 0) {
+          var id = evt.currentTarget.id;
+          var dataCard = window.card.generateCard(ads[id]);
+          window.popup.showCard(dataCard);
+        }
+      });
+      item.addEventListener('keydown', function (evt) {
+        if (evt.code === 'Enter') {
+          var id = evt.currentTarget.id;
+          var dataCard = window.card.generateCard(ads[id]);
+          window.popup.showCard(dataCard);
+        }
       });
     });
   },
