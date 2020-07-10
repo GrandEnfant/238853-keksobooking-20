@@ -37,6 +37,10 @@ var applyActiveMode = function () {
         }
       });
     });
+    pinNode.addEventListener('mousedown', function (evt) {
+      evt.preventDefault();
+      window.map.movePin(evt);
+    });
   },
   function () {
     var errorPlace = document.querySelector('#error');
