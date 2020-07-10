@@ -19,7 +19,7 @@
     addressFieldNode.placeholder = pinCoordinate;
   };
 
-  var enableField = function (caseValue) {
+  var enableTimeFields = function (caseValue) {
     for (var n = 0; n < timeoutOptions.length; n++) {
       if (timeoutOptions[n].value === caseValue) {
         timeoutOptions[n].disabled = false;
@@ -108,30 +108,24 @@
   };
 
   var highlightTypeHousing = function (typeHousing) {
+    price.classList.remove('invalid');
     switch (typeHousing.value) {
       case ('bungalo'):
-        price.classList.add('invalid');
         price.classList.remove('invalid');
         break;
       case ('flat'):
         if (price.value < 1000) {
           price.classList.add('invalid');
-        } else {
-          price.classList.remove('invalid');
         }
         break;
       case ('house'):
         if (price.value < 5000) {
           price.classList.add('invalid');
-        } else {
-          price.classList.remove('invalid');
         }
         break;
       case ('palace'):
         if (price.value < 10000) {
           price.classList.add('invalid');
-        } else {
-          price.classList.remove('invalid');
         }
         break;
     }
@@ -140,15 +134,15 @@
   var disabledTimeField = function (time) {
     switch (time.value) {
       case ('12:00'): {
-        enableField(time.value, '12:00');
+        enableTimeFields('12:00');
         break;
       }
       case ('13:00'): {
-        enableField(time.value, '13:00');
+        enableTimeFields('13:00');
         break;
       }
       case ('14:00'): {
-        enableField(time.value, '14:00');
+        enableTimeFields('14:00');
         break;
       }
     }
