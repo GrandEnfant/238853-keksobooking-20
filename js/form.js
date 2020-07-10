@@ -19,12 +19,24 @@
     addressFieldNode.placeholder = pinCoordinate;
   };
 
-  rooms.addEventListener('change', function () {
+  var enableTimeFields = function (caseValue) {
+    for (var n = 0; n < timeoutOptions.length; n++) {
+      if (timeoutOptions[n].value === caseValue) {
+        timeoutOptions[n].disabled = false;
+        timeoutOptions[n].selected = true;
+        continue;
+      }
+      timeoutOptions[n].disabled = true;
+    }
+  };
+
+  var disabledFieldRooms = function () {
     switch (rooms.value) {
       case ('1'): {
         for (var j = 0; j < capacityOptions.length; j++) {
-          if (capacityOptions[j].text === 'для 1 гостя') {
+          if (capacityOptions[j].value === '1') {
             capacityOptions[j].disabled = false;
+            capacityOptions[j].selected = true;
             continue;
           }
           capacityOptions[j].disabled = true;
@@ -33,8 +45,9 @@
       }
       case ('2'): {
         for (var k = 0; k < capacityOptions.length; k++) {
-          if (capacityOptions[k].text === 'для 2 гостей' || capacityOptions[k].text === 'для 1 гостя') {
+          if (capacityOptions[k].value === '2' || capacityOptions[k].value === '1') {
             capacityOptions[k].disabled = false;
+            capacityOptions[k].selected = true;
             continue;
           }
           capacityOptions[k].disabled = true;
@@ -43,8 +56,9 @@
       }
       case ('3'): {
         for (var n = 0; n < capacityOptions.length; n++) {
-          if (capacityOptions[n].text === 'для 2 гостей' || capacityOptions[n].text === 'для 1 гостя' || capacityOptions[n].text === 'для 3 гостей') {
+          if (capacityOptions[n].value === '2' || capacityOptions[n].value === '1' || capacityOptions[n].value === '3') {
             capacityOptions[n].disabled = false;
+            capacityOptions[n].selected = true;
             continue;
           }
           capacityOptions[n].disabled = true;
@@ -53,8 +67,9 @@
       }
       case ('100'): {
         for (var m = 0; m < capacityOptions.length; m++) {
-          if (capacityOptions[m].text === 'не для гостей') {
+          if (capacityOptions[m].value === '0') {
             capacityOptions[m].disabled = false;
+            capacityOptions[m].selected = true;
             continue;
           }
           capacityOptions[m].disabled = true;
@@ -62,9 +77,114 @@
         break;
       }
     }
+  };
+  var adTitle = document.querySelector('#title');
+  var price = document.querySelector('#price');
+  var timein = document.querySelector('#timein');
+  var timeout = document.querySelector('#timeout');
+  var timeoutOptions = timeout.querySelectorAll('option');
+  var photoFile = document.querySelector('#images');
+  var type = document.querySelector('#type');
+  photoFile.accept = '.jpg, .png';
+
+  var highlightAdTitle = function (value) {
+    if (!((/[a-zA-Zа-яА-Я]/).test(value))) {
+      adTitle.classList.add('invalid');
+    } else if (!(value.length < 30 || value.length > 100)) {
+      adTitle.classList.add('invalid');
+    } else {
+      adTitle.classList.remove('invalid');
+    }
+  };
+
+  var highlightPrice = function (value) {
+    if ((/[0-1]/).test(value)) {
+      price.classList.add('invalid');
+    } else if (value > 1000000) {
+      price.classList.add('invalid');
+    } else if (value.length === 0) {
+      price.classList.add('invalid');
+    }
+  };
+
+  var highlightTypeHousing = function (typeHousing) {
+    price.classList.remove('invalid');
+    switch (typeHousing.value) {
+      case ('bungalo'):
+        price.classList.remove('invalid');
+        break;
+      case ('flat'):
+        if (price.value < 1000) {
+          price.classList.add('invalid');
+        }
+        break;
+      case ('house'):
+        if (price.value < 5000) {
+          price.classList.add('invalid');
+        }
+        break;
+      case ('palace'):
+        if (price.value < 10000) {
+          price.classList.add('invalid');
+        }
+        break;
+    }
+  };
+
+  var disabledTimeField = function (time) {
+    switch (time.value) {
+      case ('12:00'): {
+        enableTimeFields('12:00');
+        break;
+      }
+      case ('13:00'): {
+        enableTimeFields('13:00');
+        break;
+      }
+      case ('14:00'): {
+        enableTimeFields('14:00');
+        break;
+      }
+    }
+  };
+
+  adTitle.addEventListener('focus', function () {
+    adTitle.classList.remove('invalid');
+  });
+
+  adTitle.addEventListener('blur', function () {
+    highlightAdTitle(adTitle.value);
+  });
+
+  price.addEventListener('focus', function () {
+    price.classList.remove('invalid');
+  });
+
+  price.addEventListener('blur', function () {
+    highlightPrice(price.value);
+  });
+
+  type.addEventListener('change', function () {
+    price.classList.remove('invalid');
+    highlightTypeHousing(type);
+  });
+  price.addEventListener('blur', function () {
+    price.classList.remove('invalid');
+    highlightTypeHousing(price);
+  });
+  timein.addEventListener('change', function () {
+    timein.classList.remove('invalid');
+    disabledTimeField(timein);
+  });
+  timeout.addEventListener('blur', function () {
+    timeout.classList.remove('invalid');
+    disabledTimeField(timeout);
+  });
+  rooms.addEventListener('change', function () {
+    disabledFieldRooms();
   });
   window.form = {
     setDisableForm: setDisableForm,
-    fillAddress: fillAddress
+    fillAddress: fillAddress,
   };
 })();

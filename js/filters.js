@@ -7,6 +7,7 @@
     });
     return sameHousingType;
   };
+
   window.filters = {
     dataFilter: dataFilter,
   };
