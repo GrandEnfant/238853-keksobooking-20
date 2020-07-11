@@ -4,12 +4,25 @@ var ADS_NUMBER = 5;
 var url = 'https://javascript.pages.academy/keksobooking/data';
 var housingType = document.querySelector('#housing-type');
 var pinNode = document.querySelector('.map__pin--main');
-var pinCoordinate = parseInt(pinNode.style.left, 10) + ', ' + parseInt(pinNode.style.top, 10);
+var pinCoordinateInit = {
+  x: pinNode.style.left,
+  y: pinNode.style.top,
+};
+var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
 window.form.setDisableForm(true);
+
+var mouseMoving = function (evt) {
+  evt.preventDefault();
+  window.popup.closePopup();
+  var newCoordinate = window.map.movePin(evt);
+  pinCoordinateString = window.map.getCoordinate(newCoordinate);
+  window.form.fillAddress(pinCoordinateString);
+  pinNode.removeEventListener('mousedown', mouseMoving);
+};
 
 var applyActiveMode = function () {
   window.form.setDisableForm(false);
-  window.form.fillAddress(pinCoordinate);
+  window.form.fillAddress(pinCoordinateString);
   window.load.loadData(function (ads) {
     var adsSlice = ads.slice(0, ADS_NUMBER);
     var initAdsFragment = window.map.createAds(adsSlice, window.pin.getPin);
@@ -37,10 +50,8 @@ var applyActiveMode = function () {
         }
       });
     });
-    pinNode.addEventListener('mousedown', function (evt) {
-      evt.preventDefault();
-      window.map.movePin(evt);
-    });
+
+    pinNode.addEventListener('mousedown', mouseMoving);
   },
   function () {
     var errorPlace = document.querySelector('#error');
@@ -60,5 +71,3 @@ pinNode.addEventListener('keydown', function (evt) {
     applyActiveMode();
   }
 });
-
-

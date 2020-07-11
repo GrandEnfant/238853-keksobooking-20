@@ -4,7 +4,8 @@
   var pinButton = document.querySelector('.map__pin');
   var mapPinsNode = document.querySelector('.map__pins');
   var mapNode = document.querySelector('.map');
-
+  var pinSize = 65;
+  var arrowHeight = 22;
 
   var createAds = function (data, getPin) {
     var fragmentPins = document.createDocumentFragment();
@@ -33,6 +34,7 @@
     };
 
     var onMouseMove = function (moveEvt) {
+      moveEvt.preventDefault();
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -43,11 +45,12 @@
         x: moveEvt.clientX,
         y: moveEvt.clientY
       };
+
       var pinPosition = {
         x: pinButton.offsetLeft - shift.x,
         y: pinButton.offsetTop - shift.y
       };
-      var pinSize = 65;
+
 
       if (pinPosition.x >= pinSize - pinSize &&
         pinPosition.x <= mapNode.clientWidth - pinSize &&
@@ -64,14 +67,21 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
     };
-
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
-
+    var coordinate = {
+      x: pinButton.style.left,
+      y: pinButton.style.top,
+    };
+    return coordinate;
+  };
+  var getCoordinate = function (coodinate) {
+    return parseInt(coodinate.x, 10) + ', ' + (parseInt(coodinate.y, 10) + pinSize + arrowHeight);
   };
 
   window.map = {
     movePin: movePin,
+    getCoordinate: getCoordinate,
     renderAds: renderAds,
     createAds: createAds,
     removePins: removePins,
