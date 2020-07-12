@@ -11,13 +11,13 @@ var pinCoordinateInit = {
 var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
 window.form.setDisableForm(true);
 
-var mouseMoving = function (evt) {
+var fixCoordinates = function (evt) {
   evt.preventDefault();
   window.popup.closePopup();
   var newCoordinate = window.map.movePin(evt);
   pinCoordinateString = window.map.getCoordinate(newCoordinate);
   window.form.fillAddress(pinCoordinateString);
-  pinNode.removeEventListener('mousedown', mouseMoving);
+  pinNode.removeEventListener('mousedown', fixCoordinates);
 };
 
 var applyActiveMode = function () {
@@ -51,7 +51,7 @@ var applyActiveMode = function () {
       });
     });
 
-    pinNode.addEventListener('mousedown', mouseMoving);
+    pinNode.addEventListener('mousedown', fixCoordinates);
   },
   function () {
     var errorPlace = document.querySelector('#error');
