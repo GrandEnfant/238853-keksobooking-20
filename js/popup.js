@@ -5,8 +5,10 @@
 
   var closePopup = function () {
     var popupCard = document.querySelector('.popup');
-    filtersContainer.removeChild(popupCard);
-    document.removeEventListener('click', closePopup);
+    if (popupCard) {
+      filtersContainer.removeChild(popupCard);
+      document.removeEventListener('click', closePopup);
+    }
   };
   var openPopup = function (dataCard) {
     var popupCard = document.querySelector('.popup');
