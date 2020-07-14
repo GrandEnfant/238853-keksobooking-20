@@ -2,36 +2,75 @@
 
 (function () {
   var filtersContainer = document.querySelector('.map__filters-container');
-
-  var closePopup = function () {
-    var popupCard = document.querySelector('.popup');
+  var place = document.querySelector('.map');
+  var forms = document.querySelector('.ad-form');
+  var closePopup = function (popup, fromRemove) {
+    var popupCard = document.querySelector(popup);
     if (popupCard) {
-      filtersContainer.removeChild(popupCard);
+      fromRemove.removeChild(popupCard);
       document.removeEventListener('click', closePopup);
     }
   };
   var openPopup = function (dataCard) {
     var popupCard = document.querySelector('.popup');
     if (popupCard) {
-      closePopup();
+      closePopup('.popup', filtersContainer);
     }
     filtersContainer.appendChild(dataCard);
     var closeBtn = document.querySelector('.popup__close');
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        closePopup();
+        closePopup('.popup', filtersContainer);
       }
     });
     closeBtn.addEventListener('click', function (evt) {
       if (evt.button === 0) {
         evt.preventDefault();
-        closePopup();
+        closePopup('.popup', filtersContainer);
       }
     });
   };
+  var openSuccessPopup = function () {
+    var clonedSuccess = document.content.cloneNode(true);
+    place.appendChild(clonedSuccess);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        closePopup('.success', place);
+        forms.reset();
+        location.reload();
+      }
+    });
+    document.addEventListener('click', function (evt) {
+      if (evt.button === 0) {
+        evt.preventDefault();
+        closePopup('.success', place);
+      }
+    });
+  };
+  var openErrorPopup = function () {
+    var errorPlace = document.querySelector('#error');
+    var clonedError = errorPlace.content.cloneNode(true);
+    place.appendChild(clonedError);
+    var closeBtn = document.querySelector('.error__button');
+    closeBtn.addEventListener('click', function (evt) {
+      if (evt.button === 0) {
+        closePopup('.error', place);
+      }
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.key === 'Escape') {
+        evt.preventDefault();
+        closePopup('.error', place);
+      }
+    });
+  };
+
   window.popup = {
     closePopup: closePopup,
-    showCard: openPopup
+    showCard: openPopup,
+    openSuccessPopup: openSuccessPopup,
+    openErrorPopup: openErrorPopup,
   };
 })();

@@ -6,10 +6,14 @@
   var addressFieldNode = document.querySelector('#address');
   var formNode = document.querySelector('.ad-form');
   var fieldsetNode = formNode.querySelectorAll('fieldset');
-
+  var formResetBtn = document.querySelector('.ad-form__reset');
+  var submitButton = document.querySelector('.ad-form__submit');
   var setDisableForm = function (isActive) {
     if (!isActive) {
       formNode.classList.remove('ad-form--disabled');
+      submitButton.disabled = false;
+    } else {
+      formNode.classList.add('ad-form--disabled');
     }
     for (var l = 0; l < fieldsetNode.length; l++) {
       fieldsetNode[l].disabled = isActive;
@@ -37,6 +41,7 @@
           if (capacityOptions[j].value === '1') {
             capacityOptions[j].disabled = false;
             capacityOptions[j].selected = true;
+
             continue;
           }
           capacityOptions[j].disabled = true;
@@ -90,25 +95,32 @@
   var highlightAdTitle = function (value) {
     if (!((/[a-zA-Zа-яА-Я]/).test(value))) {
       adTitle.classList.add('invalid');
+      submitButton.disabled = true;
     } else if (!(value.length < 30 || value.length > 100)) {
       adTitle.classList.add('invalid');
+      submitButton.disabled = true;
     } else {
       adTitle.classList.remove('invalid');
+      submitButton.disabled = false;
     }
   };
 
   var highlightPrice = function (value) {
     if ((/[0-1]/).test(value)) {
       price.classList.add('invalid');
+      submitButton.disabled = true;
     } else if (value > 1000000) {
       price.classList.add('invalid');
+      submitButton.disabled = true;
     } else if (value.length === 0) {
       price.classList.add('invalid');
+      submitButton.disabled = true;
     }
   };
 
   var highlightTypeHousing = function (typeHousing) {
     price.classList.remove('invalid');
+    submitButton.disabled = false;
     switch (typeHousing.value) {
       case ('bungalo'):
         price.classList.remove('invalid');
@@ -116,16 +128,19 @@
       case ('flat'):
         if (price.value < 1000) {
           price.classList.add('invalid');
+          submitButton.disabled = true;
         }
         break;
       case ('house'):
         if (price.value < 5000) {
           price.classList.add('invalid');
+          submitButton.disabled = true;
         }
         break;
       case ('palace'):
         if (price.value < 10000) {
           price.classList.add('invalid');
+          submitButton.disabled = true;
         }
         break;
     }
@@ -150,6 +165,7 @@
 
   adTitle.addEventListener('focus', function () {
     adTitle.classList.remove('invalid');
+    submitButton.disabled = false;
   });
 
   adTitle.addEventListener('blur', function () {
@@ -158,6 +174,7 @@
 
   price.addEventListener('focus', function () {
     price.classList.remove('invalid');
+    submitButton.disabled = false;
   });
 
   price.addEventListener('blur', function () {
@@ -166,25 +183,38 @@
 
   type.addEventListener('change', function () {
     price.classList.remove('invalid');
+    submitButton.disabled = false;
     highlightTypeHousing(type);
   });
   price.addEventListener('blur', function () {
     price.classList.remove('invalid');
+    submitButton.disabled = false;
     highlightTypeHousing(price);
   });
   timein.addEventListener('change', function () {
     timein.classList.remove('invalid');
+    submitButton.disabled = false;
     disabledTimeField(timein);
   });
   timeout.addEventListener('blur', function () {
     timeout.classList.remove('invalid');
+    submitButton.disabled = false;
     disabledTimeField(timeout);
   });
   rooms.addEventListener('change', function () {
     disabledFieldRooms();
   });
+  var collectData = function () {
+    var data = new FormData(formNode);
+    console.log(data);
+  };
+  formResetBtn.addEventListener('click', function () {
+    formNode.reset();
+  });
+
   window.form = {
     setDisableForm: setDisableForm,
     fillAddress: fillAddress,
+    collectData: collectData,
   };
 })();

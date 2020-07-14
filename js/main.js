@@ -3,11 +3,14 @@
 var ADS_NUMBER = 5;
 var url = 'https://javascript.pages.academy/keksobooking/data';
 var housingType = document.querySelector('#housing-type');
+// var place = document.querySelector('.map');
 var pinNode = document.querySelector('.map__pin--main');
+var forms = document.querySelector('.ad-form');
 var pinCoordinateInit = {
   x: pinNode.style.left,
   y: pinNode.style.top,
 };
+var submitButton = document.querySelector('.ad-form__submit');
 var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
 window.form.setDisableForm(true);
 
@@ -69,5 +72,19 @@ pinNode.addEventListener('mousedown', function (evt) {
 pinNode.addEventListener('keydown', function (evt) {
   if (evt.code === 'Enter') {
     applyActiveMode();
+  }
+});
+
+submitButton.addEventListener('mousedown', function (evt) {
+  if (evt.button === 0) {
+    evt.preventDefault();
+    window.load.sendData(new FormData(forms),
+        function () {
+          window.popup.openSuccessPopup();
+        },
+        function () {
+          window.popup.openErrorPopup();
+        }
+    );
   }
 });

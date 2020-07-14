@@ -10,10 +10,6 @@
       clonedElement.querySelector('img').alt = data.offer.title;
       clonedElement.classList.add('rendered-pin');
       clonedElement.setAttribute('id', id);
-      // clonedElement.addEventListener('mousedown', function (evt) {
-      //   console.log(evt.currentTarget);
-      //   window.card.generateCard(data);
-      // })
       return clonedElement;
     }
   };
