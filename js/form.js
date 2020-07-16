@@ -5,6 +5,7 @@
   var capacityOptions = document.querySelector('#capacity').options;
   var addressFieldNode = document.querySelector('#address');
   var formNode = document.querySelector('.ad-form');
+  var inputsNode = formNode.querySelectorAll('input');
   var fieldsetNode = formNode.querySelectorAll('fieldset');
   var formResetBtn = document.querySelector('.ad-form__reset');
   var submitButton = document.querySelector('.ad-form__submit');
@@ -97,6 +98,9 @@
       adTitle.classList.add('invalid');
       submitButton.disabled = true;
     } else if (!(value.length < 30 || value.length > 100)) {
+      adTitle.classList.add('invalid');
+      submitButton.disabled = true;
+    } else if ((/[0-9]/).test(value)) {
       adTitle.classList.add('invalid');
       submitButton.disabled = true;
     } else {
@@ -204,6 +208,22 @@
   rooms.addEventListener('change', function () {
     disabledFieldRooms();
   });
+
+  var validateForm = function () {
+    for (var i = 0; i < inputsNode.length; i++) {
+      if (inputsNode[i].required && inputsNode[i].value === '' || inputsNode[i].classList.contains('invalid')) {
+        return false;
+      }
+    } return true;
+  };
+
+  var pointEmptyFields = function () {
+    for (var i = 0; i < inputsNode.length; i++) {
+      if (inputsNode[i].required && inputsNode[i].value === '') {
+        inputsNode[i].classList.add('invalid');
+      }
+    }
+  };
   var collectData = function () {
     var data = new FormData(formNode);
     console.log(data);
@@ -216,5 +236,7 @@
     setDisableForm: setDisableForm,
     fillAddress: fillAddress,
     collectData: collectData,
+    validateForm: validateForm,
+    pointEmptyFields: pointEmptyFields,
   };
 })();
