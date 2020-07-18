@@ -28,12 +28,7 @@
   };
 
   var sendData = function (data, onSuccess, onError)  {
-    // удалить потом
-    console.log(data);
-    for (var entry of data.entries()) {
-      console.log(entry[0]+ ', '+ entry[1]);
-    }
-    //до сих
+
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {

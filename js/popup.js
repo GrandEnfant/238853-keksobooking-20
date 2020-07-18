@@ -32,7 +32,8 @@
     });
   };
   var openSuccessPopup = function () {
-    var clonedSuccess = document.content.cloneNode(true);
+  var successMessage = document.querySelector('#success');
+    var clonedSuccess = successMessage.content.cloneNode(true);
     place.appendChild(clonedSuccess);
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
