@@ -73,7 +73,7 @@ pinNode.addEventListener('keydown', function (evt) {
     applyActiveMode();
   }
 });
-pinNode.addEventListener('mousedown', fixCoordinates);
+
 submitButton.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     evt.preventDefault();
