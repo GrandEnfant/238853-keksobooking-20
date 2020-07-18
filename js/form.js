@@ -9,6 +9,10 @@
   var fieldsetNode = formNode.querySelectorAll('fieldset');
   var formResetBtn = document.querySelector('.ad-form__reset');
   var submitButton = document.querySelector('.ad-form__submit');
+
+  capacityOptions[2].selected = true;
+
+
   var setDisableForm = function (isActive) {
     if (!isActive) {
       formNode.classList.remove('ad-form--disabled');
@@ -21,7 +25,7 @@
     }
   };
   var fillAddress = function (pinCoordinate) {
-    addressFieldNode.placeholder = pinCoordinate;
+    addressFieldNode.value = pinCoordinate;
   };
 
   var enableTimeFields = function (caseValue) {
