@@ -224,10 +224,6 @@
       }
     }
   };
-  var collectData = function () {
-    var data = new FormData(formNode);
-    console.log(data);
-  };
   formResetBtn.addEventListener('click', function () {
     formNode.reset();
   });
@@ -235,7 +231,6 @@
   window.form = {
     setDisableForm: setDisableForm,
     fillAddress: fillAddress,
-    collectData: collectData,
     validateForm: validateForm,
     pointEmptyFields: pointEmptyFields,
   };

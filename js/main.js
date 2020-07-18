@@ -78,7 +78,6 @@ submitButton.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     evt.preventDefault();
     var isValidate = window.form.validateForm();
-    console.log(isValidate);
     if (isValidate) {
       window.load.sendData(new FormData(forms),
           function () {

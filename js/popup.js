@@ -32,7 +32,7 @@
     });
   };
   var openSuccessPopup = function () {
-  var successMessage = document.querySelector('#success');
+    var successMessage = document.querySelector('#success');
     var clonedSuccess = successMessage.content.cloneNode(true);
     place.appendChild(clonedSuccess);
     document.addEventListener('keydown', function (evt) {
