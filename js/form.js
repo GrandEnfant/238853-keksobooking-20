@@ -100,7 +100,7 @@
     if (!((/[a-zA-Zа-яА-Я]/).test(value))) {
       adTitle.classList.add('invalid');
       submitButton.disabled = true;
-    } else if (!(value.length < 30 || value.length > 100)) {
+    } else if (value.length <= 30 || value.length >= 100) {
       adTitle.classList.add('invalid');
       submitButton.disabled = true;
     } else if ((/[0-9]/).test(value)) {

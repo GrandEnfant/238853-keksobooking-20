@@ -4,14 +4,14 @@
   var filtersContainer = document.querySelector('.map__filters-container');
   var place = document.querySelector('.map');
   var forms = document.querySelector('.ad-form');
-  var close= function (popup, fromRemove) {
+  var close = function (popup, fromRemove) {
     var popupCard = document.querySelector(popup);
     if (popupCard) {
       fromRemove.removeChild(popupCard);
       document.removeEventListener('click', close);
     }
   };
-  var actionSuccess = function () {
+  var actionSuccess = function (evt) {
     evt.preventDefault();
     close('.success', place);
     forms.reset();
@@ -42,12 +42,12 @@
     place.appendChild(clonedSuccess);
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
-        actionSuccess();
+        actionSuccess(evt);
       }
     });
     document.addEventListener('click', function (evt) {
       if (evt.button === 0) {
-        actionSuccess();
+        actionSuccess(evt);
       }
     });
   };

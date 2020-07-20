@@ -29,14 +29,13 @@
   var initialCoordinate = {
     x: pinButton.style.left,
     y: pinButton.style.top,
-  }
+  };
   var setPinOnInitial = function () {
     pinButton.style.left = initialCoordinate.x;
     pinButton.style.top = initialCoordinate.y;
-  }
+  };
 
   var movePin = function (evt) {
-
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY

@@ -81,9 +81,8 @@ submitButton.addEventListener('mousedown', function (evt) {
     var isValidate = window.form.validate();
     if (isValidate) {
       window.serverWorker.sendData(new FormData(forms),
-            window.popup.openSuccessMessage,
-            window.popup.openErrorMessage,
-      );
+          window.popup.openSuccessMessage,
+          window.popup.openErrorMessage);
     } else {
       window.form.pointEmptyFields();
     }
@@ -92,4 +91,4 @@ submitButton.addEventListener('mousedown', function (evt) {
 
 resetBtn.addEventListener('click', function () {
   window.filters.dropReset();
-})
+});
