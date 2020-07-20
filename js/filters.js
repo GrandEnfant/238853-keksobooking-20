@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var dataFilter = function (ads, housingType) {
+  var selectData = function (ads, housingType) {
     var sameHousingType = ads.filter(function (it) {
       return it.offer.type === housingType || housingType === 'any';
     });
@@ -11,7 +11,7 @@
     filters.reset();
   };
   window.filters = {
-    dataFilter: dataFilter,
+    selectData: selectData,
     dropReset: dropReset,
   };
 })();

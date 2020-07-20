@@ -49,7 +49,7 @@
     xhr.send(data);
   };
 
-  window.load = {
+  window.serverWorker = {
     loadData: loadData,
     sendData: sendData,
   };

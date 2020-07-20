@@ -7,11 +7,10 @@
   var formNode = document.querySelector('.ad-form');
   var inputsNode = formNode.querySelectorAll('input');
   var fieldsetNode = formNode.querySelectorAll('fieldset');
-  var formResetBtn = document.querySelector('.ad-form__reset');
+  var resetBtn = document.querySelector('.ad-form__reset');
   var submitButton = document.querySelector('.ad-form__submit');
 
   capacityOptions[2].selected = true;
-
 
   var setDisable = function (isActive) {
     if (!isActive) {
@@ -213,7 +212,7 @@
     disabledFieldRooms();
   });
 
-  var validateForm = function () {
+  var validate = function () {
     for (var i = 0; i < inputsNode.length; i++) {
       if (inputsNode[i].required && inputsNode[i].value === '' || inputsNode[i].classList.contains('invalid')) {
         return false;
@@ -228,14 +227,14 @@
       }
     }
   };
-  formResetBtn.addEventListener('click', function () {
+  resetBtn.addEventListener('click', function () {
     formNode.reset();
   });
 
   window.form = {
     setDisable: setDisable,
     fillAddress: fillAddress,
-    validateForm: validateForm,
+    validate: validate,
     pointEmptyFields: pointEmptyFields,
   };
 })();

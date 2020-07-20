@@ -31,7 +31,7 @@
       }
     });
   };
-  var openSuccessPopup = function () {
+  var openSuccessMessage = function () {
     var successMessage = document.querySelector('#success');
     var clonedSuccess = successMessage.content.cloneNode(true);
     place.appendChild(clonedSuccess);
@@ -50,7 +50,7 @@
       }
     });
   };
-  var openErrorPopup = function () {
+  var openErrorMessage = function () {
     var errorPlace = document.querySelector('#error');
     var clonedError = errorPlace.content.cloneNode(true);
     place.appendChild(clonedError);
@@ -71,7 +71,7 @@
   window.popup = {
     close: close,
     showCard: open,
-    openSuccessPopup: openSuccessPopup,
-    openErrorPopup: openErrorPopup,
+    openSuccessMessage: openSuccessMessage,
+    openErrorMessage: openErrorMessage,
   };
 })();

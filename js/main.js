@@ -25,13 +25,13 @@ var fixCoordinates = function (evt) {
 var applyActiveMode = function () {
   window.form.setDisable(false);
   window.form.fillAddress(pinCoordinateString);
-  window.load.loadData(function (ads) {
+  window.serverWorker.loadData(function (ads) {
     var adsSlice = ads.slice(0, ADS_NUMBER);
-    var initAdsFragment = window.map.createAds(adsSlice, window.pin.getPin);
+    var initAdsFragment = window.map.createAds(adsSlice, window.pin.generate);
     window.map.renderAds(initAdsFragment);
     housingType.addEventListener('change', function () {
-      var filteredAds = window.filters.dataFilter(ads, housingType.value).slice(0, ADS_NUMBER);
-      var filteredAdsFragment = window.map.createAds(filteredAds, window.pin.getPin);
+      var filteredAds = window.filters.selectData(ads, housingType.value).slice(0, ADS_NUMBER);
+      var filteredAdsFragment = window.map.createAds(filteredAds, window.pin.generate);
       window.map.removePins('.rendered-pin');
       window.map.renderAds(filteredAdsFragment);
     });
@@ -40,14 +40,14 @@ var applyActiveMode = function () {
       item.addEventListener('click', function (evt) {
         if (evt.button === 0) {
           var id = evt.currentTarget.id;
-          var dataCard = window.card.generateCard(ads[id]);
+          var dataCard = window.card.generate(ads[id]);
           window.popup.showCard(dataCard);
         }
       });
       item.addEventListener('keydown', function (evt) {
         if (evt.code === 'Enter') {
           var id = evt.currentTarget.id;
-          var dataCard = window.card.generateCard(ads[id]);
+          var dataCard = window.card.generate(ads[id]);
           window.popup.showCard(dataCard);
         }
       });
@@ -77,14 +77,14 @@ pinNode.addEventListener('keydown', function (evt) {
 submitButton.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     evt.preventDefault();
-    var isValidate = window.form.validateForm();
+    var isValidate = window.form.validate();
     if (isValidate) {
-      window.load.sendData(new FormData(forms),
+      window.serverWorker.sendData(new FormData(forms),
           function () {
-            window.popup.openSuccessPopup();
+            window.popup.openSuccessMessage();
           },
           function () {
-            window.popup.openErrorPopup();
+            window.popup.openErrorMessage();
           }
       );
     } else {

@@ -2,7 +2,7 @@
 
 (function () {
   window.pin = {
-    getPin: function (pin, data, id) {
+    generate: function (pin, data, id) {
       var clonedElement = pin.cloneNode(true);
       clonedElement.style.left = data.location.x + clonedElement.querySelector('img').width + 'px';
       clonedElement.style.top = data.location.y + clonedElement.querySelector('img').height + 'px';

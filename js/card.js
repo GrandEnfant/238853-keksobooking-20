@@ -16,7 +16,7 @@
     }
     return fragmentImgs;
   };
-  var generateCard = function (data) {
+  var generate = function (data) {
     var clonedCard = card.content.cloneNode(true);
     var avatar = clonedCard.querySelector('.popup__avatar');
     var title = clonedCard.querySelector('.popup__title');
@@ -45,6 +45,6 @@
   };
 
   window.card = {
-    generateCard: generateCard,
+    generate: generate,
   };
 })();
