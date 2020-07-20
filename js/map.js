@@ -26,8 +26,16 @@
     });
   };
 
-  var movePin = function (evt) {
+  var initialCoordinate = {
+    x: pinButton.style.left,
+    y: pinButton.style.top,
+  };
+  var setPinOnInitial = function () {
+    pinButton.style.left = initialCoordinate.x;
+    pinButton.style.top = initialCoordinate.y;
+  };
 
+  var movePin = function (evt) {
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -50,7 +58,6 @@
         x: pinButton.offsetLeft - shift.x,
         y: pinButton.offsetTop - shift.y
       };
-
 
       if (pinPosition.x >= pinSize - pinSize &&
         pinPosition.x <= mapNode.clientWidth - pinSize &&
@@ -85,5 +92,6 @@
     renderAds: renderAds,
     createAds: createAds,
     removePins: removePins,
+    setPinOnInitial: setPinOnInitial,
   };
 })();
