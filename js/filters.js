@@ -7,8 +7,11 @@
     });
     return sameHousingType;
   };
-
+  var dropReset = function () {
+    filters.reset();
+  };
   window.filters = {
     dataFilter: dataFilter,
+    dropReset: dropReset,
   };
 })();

@@ -4,30 +4,30 @@
   var filtersContainer = document.querySelector('.map__filters-container');
   var place = document.querySelector('.map');
   var forms = document.querySelector('.ad-form');
-  var closePopup = function (popup, fromRemove) {
+  var close= function (popup, fromRemove) {
     var popupCard = document.querySelector(popup);
     if (popupCard) {
       fromRemove.removeChild(popupCard);
-      document.removeEventListener('click', closePopup);
+      document.removeEventListener('click', close);
     }
   };
-  var openPopup = function (dataCard) {
+  var open = function (dataCard) {
     var popupCard = document.querySelector('.popup');
     if (popupCard) {
-      closePopup('.popup', filtersContainer);
+      close('.popup', filtersContainer);
     }
     filtersContainer.appendChild(dataCard);
     var closeBtn = document.querySelector('.popup__close');
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        closePopup('.popup', filtersContainer);
+        close('.popup', filtersContainer);
       }
     });
     closeBtn.addEventListener('click', function (evt) {
       if (evt.button === 0) {
         evt.preventDefault();
-        closePopup('.popup', filtersContainer);
+        close('.popup', filtersContainer);
       }
     });
   };
@@ -38,7 +38,7 @@
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        closePopup('.success', place);
+        close('.success', place);
         forms.reset();
         location.reload();
       }
@@ -46,7 +46,7 @@
     document.addEventListener('click', function (evt) {
       if (evt.button === 0) {
         evt.preventDefault();
-        closePopup('.success', place);
+        close('.success', place);
       }
     });
   };
@@ -57,20 +57,20 @@
     var closeBtn = document.querySelector('.error__button');
     closeBtn.addEventListener('click', function (evt) {
       if (evt.button === 0) {
-        closePopup('.error', place);
+        close('.error', place);
       }
     });
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        closePopup('.error', place);
+        close('.error', place);
       }
     });
   };
 
   window.popup = {
-    closePopup: closePopup,
-    showCard: openPopup,
+    close: close,
+    showCard: open,
     openSuccessPopup: openSuccessPopup,
     openErrorPopup: openErrorPopup,
   };

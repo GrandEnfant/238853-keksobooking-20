@@ -13,7 +13,7 @@
   capacityOptions[2].selected = true;
 
 
-  var setDisableForm = function (isActive) {
+  var setDisable = function (isActive) {
     if (!isActive) {
       formNode.classList.remove('ad-form--disabled');
       submitButton.disabled = false;
@@ -233,7 +233,7 @@
   });
 
   window.form = {
-    setDisableForm: setDisableForm,
+    setDisable: setDisable,
     fillAddress: fillAddress,
     validateForm: validateForm,
     pointEmptyFields: pointEmptyFields,

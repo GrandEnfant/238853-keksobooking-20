@@ -11,11 +11,11 @@ var pinCoordinateInit = {
 };
 var submitButton = document.querySelector('.ad-form__submit');
 var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
-window.form.setDisableForm(true);
+window.form.setDisable(true);
 
 var fixCoordinates = function (evt) {
   evt.preventDefault();
-  window.popup.closePopup();
+  window.popup.close();
   var newCoordinate = window.map.movePin(evt);
   pinCoordinateString = window.map.getCoordinate(newCoordinate);
   window.form.fillAddress(pinCoordinateString);
@@ -23,7 +23,7 @@ var fixCoordinates = function (evt) {
 };
 
 var applyActiveMode = function () {
-  window.form.setDisableForm(false);
+  window.form.setDisable(false);
   window.form.fillAddress(pinCoordinateString);
   window.load.loadData(function (ads) {
     var adsSlice = ads.slice(0, ADS_NUMBER);
