@@ -12,7 +12,8 @@ var pinCoordinateInit = {
 var submitButton = document.querySelector('.ad-form__submit');
 var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
 window.form.setDisable(true);
-
+window.form.fillAddress(pinCoordinateString);
+var resetBtn = document.querySelector('.ad-form__reset');
 var fixCoordinates = function (evt) {
   evt.preventDefault();
   window.popup.close();
@@ -80,15 +81,15 @@ submitButton.addEventListener('mousedown', function (evt) {
     var isValidate = window.form.validate();
     if (isValidate) {
       window.serverWorker.sendData(new FormData(forms),
-          function () {
-            window.popup.openSuccessMessage();
-          },
-          function () {
-            window.popup.openErrorMessage();
-          }
+            window.popup.openSuccessMessage,
+            window.popup.openErrorMessage,
       );
     } else {
       window.form.pointEmptyFields();
     }
   }
 });
+
+resetBtn.addEventListener('click', function () {
+  window.filters.dropReset();
+})

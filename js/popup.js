@@ -11,6 +11,11 @@
       document.removeEventListener('click', close);
     }
   };
+  var actionSuccess = function () {
+    evt.preventDefault();
+    close('.success', place);
+    forms.reset();
+  };
   var open = function (dataCard) {
     var popupCard = document.querySelector('.popup');
     if (popupCard) {
@@ -37,16 +42,12 @@
     place.appendChild(clonedSuccess);
     document.addEventListener('keydown', function (evt) {
       if (evt.key === 'Escape') {
-        evt.preventDefault();
-        close('.success', place);
-        forms.reset();
-        location.reload();
+        actionSuccess();
       }
     });
     document.addEventListener('click', function (evt) {
       if (evt.button === 0) {
-        evt.preventDefault();
-        close('.success', place);
+        actionSuccess();
       }
     });
   };
@@ -57,6 +58,7 @@
     var closeBtn = document.querySelector('.error__button');
     closeBtn.addEventListener('click', function (evt) {
       if (evt.button === 0) {
+        evt.preventDefault();
         close('.error', place);
       }
     });
