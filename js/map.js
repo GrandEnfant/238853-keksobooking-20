@@ -4,16 +4,30 @@
   var pinButton = document.querySelector('.map__pin');
   var mapPinsNode = document.querySelector('.map__pins');
   var mapNode = document.querySelector('.map');
+  var filters = document.querySelector('.map__filters');
   var pinSize = 65;
   var arrowHeight = 22;
+
+  // var dropHighlight = function () {
+  //   var renderedPins = document.querySelectorAll('.rendered-pin')
+  //   renderedPins.forEach(function (item) {
+  //     item.classList.remove('map__pin--active')
+  //   });
+  // }
+
+  var disactive = function () {
+    mapNode.classList.add('map--faded');
+    filters.disabled = true;
+  }
 
   var createAds = function (data, getPin) {
     var fragmentPins = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
-      var pin = getPin(pinButton, data[i], i);
-      fragmentPins.appendChild(pin);
-    }
-    return fragmentPins;
+      if ('offer' in data[i]) {
+        var pin = getPin(pinButton, data[i], i);
+        fragmentPins.appendChild(pin);
+      }}
+      return fragmentPins;
   };
   var renderAds = function (fragmentPins) {
     mapPinsNode.appendChild(fragmentPins);
@@ -93,5 +107,7 @@
     createAds: createAds,
     removePins: removePins,
     setPinOnInitial: setPinOnInitial,
+    disactive: disactive,
+    // dropHighlight: dropHighlight,
   };
 })();

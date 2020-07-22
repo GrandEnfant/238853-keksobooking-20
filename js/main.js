@@ -3,29 +3,50 @@
 var ADS_NUMBER = 5;
 var url = 'https://javascript.pages.academy/keksobooking/data';
 var pinNode = document.querySelector('.map__pin--main');
-var forms = document.querySelector('.ad-form');
-var filtersContainer = document.querySelector('.map__filters-container');
+var formsNode = document.querySelector('.ad-form');
+var filtersContainerNode = document.querySelector('.map__filters-container');
 var filtersNode = document.querySelector('.map__filters');
-var filterSelectors = filtersNode.querySelectorAll('select');
-var inputSelectors = filtersNode.querySelectorAll('input');
+var filterSelectorsNode = filtersNode.querySelectorAll('select');
+var inputSelectorsNode = filtersNode.querySelectorAll('input');
+var submitButtonNode = document.querySelector('.ad-form__submit');
+var resetBtnNode = document.querySelector('.ad-form__reset');
 var pinCoordinateInit = {
   x: pinNode.style.left,
   y: pinNode.style.top,
 };
 var DEBOUNCE_INTERVAL = 500;
-var submitButton = document.querySelector('.ad-form__submit');
 var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
+
+var disactivePage = function () {
+  window.form.setDisable(true);
+  window.filters.drop();
+  window.popup.close('.popup', filtersContainerNode);
+  var renderedPinsNode = document.querySelectorAll('.rendered-pin');
+  for (var i = 0; i < renderedPinsNode.length; i++) {
+    window.map.removePins('.rendered-pin');
+  }
+  pinNode.style.left = pinCoordinateInit.x;
+  pinNode.style.top = pinCoordinateInit.y;
+  window.form.setDisable(true);
+  window.map.disactive();
+  var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
+  window.form.fillAddress(pinCoordinateString);
+}
+
+var test = document.querySelector('.notice__title');
+test.addEventListener('click', disactivePage);
 window.form.setDisable(true);
 window.form.fillAddress(pinCoordinateString);
-var resetBtn = document.querySelector('.ad-form__reset');
+
 var fixCoordinates = function (evt) {
   evt.preventDefault();
-  window.popup.close();
+  window.popup.close('.popup', filtersContainerNode);
   var newCoordinate = window.map.movePin(evt);
   pinCoordinateString = window.map.getCoordinate(newCoordinate);
   window.form.fillAddress(pinCoordinateString);
   pinNode.removeEventListener('mousedown', fixCoordinates);
 };
+
 var addEventOnPins = function (ads) {
   var renderedPins = document.querySelectorAll('.rendered-pin');
   renderedPins.forEach(function (item) {
@@ -34,6 +55,7 @@ var addEventOnPins = function (ads) {
         var id = evt.currentTarget.id;
         var dataCard = window.card.generate(ads[id]);
         window.popup.showCard(dataCard);
+        item.classList.add('map__pin--active');
       }
     });
     item.addEventListener('keydown', function (evt) {
@@ -71,14 +93,14 @@ var applyActiveMode = function () {
     };
     var addEventOnFilters = function (elem) {
       elem.addEventListener('change', function () {
-        window.popup.close('.popup', filtersContainer);
+        window.popup.close('.popup', filtersContainerNode);
         debounce(filterAndRenderAds);
       });
     };
-    inputSelectors.forEach(function (elem) {
+    inputSelectorsNode.forEach(function (elem) {
       addEventOnFilters(elem);
     });
-    filterSelectors.forEach(function (elem) {
+    filterSelectorsNode.forEach(function (elem) {
       addEventOnFilters(elem);
     });
     pinNode.addEventListener('mousedown', fixCoordinates);
@@ -101,21 +123,26 @@ pinNode.addEventListener('keydown', function (evt) {
     applyActiveMode();
   }
 });
-
-submitButton.addEventListener('mousedown', function (evt) {
+pinNode.addEventListener('mousedown', fixCoordinates);
+submitButtonNode.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     evt.preventDefault();
     var isValidate = window.form.validate();
+    console.log(document.querySelector('#address'))
     if (isValidate) {
-      window.serverWorker.sendData(new FormData(forms),
-          window.popup.openSuccessMessage,
-          window.popup.openErrorMessage);
+      window.serverWorker.sendData(
+          new FormData(formsNode),
+          function () {
+          window.popup.openSuccessMessage();
+          },
+        function () {
+          window.popup.openErrorMessage });
     } else {
       window.form.pointEmptyFields();
     }
   }
 });
 
-resetBtn.addEventListener('click', function () {
-  window.filters.dropReset();
+resetBtnNode.addEventListener('click', function () {
+  disactivePage();
 });

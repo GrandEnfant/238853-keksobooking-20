@@ -3,7 +3,6 @@
 (function () {
 
   var card = document.querySelector('#card');
-
   var getPhotos = function (data) {
     var fragmentImgs = document.createDocumentFragment();
     var photos = data.offer.photos;
@@ -31,16 +30,16 @@
     var img = photos.querySelector('img');
     var template = getPhotos(data);
 
-    avatar.src = data.author.avatar;
-    title.textContent = data.offer.title;
-    address.textContent = data.offer.address;
-    price.textContent = data.offer.price + ' ₽/ночь';
-    type.textContent = data.offer.type;
-    roomsNumber.textContent = data.offer.rooms;
-    check.textContent = 'Заезд после ' + data.offer.checkin + ', ' + ' выезд до ' + data.offer.checkout;
-    features.textContent = data.offer.features.join(',');
-    description.textContent = data.offer.description;
-    photos.replaceChild(template, img);
+    data.author.avatar !== '' ? avatar.src = data.author.avatar : avatar.src = '';
+    data.offer.title !== '' ? title.textContent = data.offer.title : title.textContent = '';
+    data.offer.address !== '' ? address.textContent = data.offer.address : address.textContent = '';
+    data.offer.price !== '' ?  price.textContent = data.offer.price + ' ₽/ночь' : price.textContent = '';
+    data.offer.type !== '' ?  type.textContent = data.offer.type : type.textContent = '';
+    data.offer.rooms !== '' && data.offer.rooms !== 0 ? roomsNumber.textContent = data.offer.rooms : roomsNumber.textContent = '';
+    data.offer.checkin !== '' && data.offer.checkin !== '0:00' ? check.textContent = 'Заезд после ' + data.offer.checkin + ', ' + ' выезд до ' + data.offer.checkout : check.textContent = '';
+    data.offer.features !== '' && data.offer.features !== 0 ?  features.textContent = data.offer.features.join(',') : features.textContent = '';
+    data.offer.description !== '' ?  description.textContent = data.offer.description : description.textContent = '';
+    data.offer.photos !== '' ? photos.replaceChild(template, img) : img.src = '';
     return clonedCard;
   };
 

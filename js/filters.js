@@ -38,7 +38,7 @@
       return it.offer.features.indexOf(filterValue);
     });
   };
-  var dropReset = function () {
+  var drop = function () {
     filterNode.reset();
   };
 
@@ -53,7 +53,7 @@
 
   window.filters = {
     selectData: selectData,
-    dropReset: dropReset,
+    drop: drop,
     filterAds: filterAds,
   };
 })();

@@ -131,23 +131,27 @@
     switch (typeHousing.value) {
       case ('bungalo'):
         price.classList.remove('invalid');
+        price.placeholder = '0';
         break;
       case ('flat'):
         if (price.value < 1000) {
           price.classList.add('invalid');
           submitButton.disabled = true;
+          price.placeholder = '1 000';
         }
         break;
       case ('house'):
         if (price.value < 5000) {
           price.classList.add('invalid');
           submitButton.disabled = true;
+          price.placeholder = '5 000';
         }
         break;
       case ('palace'):
         if (price.value < 10000) {
           price.classList.add('invalid');
           submitButton.disabled = true;
+          price.placeholder = '10 000';
         }
         break;
     }

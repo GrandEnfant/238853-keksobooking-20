@@ -5,8 +5,13 @@
   var place = document.querySelector('.map');
   var forms = document.querySelector('.ad-form');
   var close = function (popup, fromRemove) {
+
     var popupCard = document.querySelector(popup);
     if (popupCard) {
+      var  renderedPins = document.querySelectorAll('.rendered-pin')
+      renderedPins.forEach(function (item) {
+        item.classList.remove('map__pin--active')
+      });
       fromRemove.removeChild(popupCard);
       document.removeEventListener('click', close);
     }
@@ -37,6 +42,7 @@
     });
   };
   var openSuccessMessage = function () {
+    evt.preventDefault();
     var successMessage = document.querySelector('#success');
     var clonedSuccess = successMessage.content.cloneNode(true);
     place.appendChild(clonedSuccess);
@@ -50,6 +56,7 @@
         actionSuccess(evt);
       }
     });
+    console.log('open');
   };
   var openErrorMessage = function () {
     var errorPlace = document.querySelector('#error');
