@@ -30,16 +30,56 @@
     var img = photos.querySelector('img');
     var template = getPhotos(data);
 
-    data.author.avatar !== '' ? avatar.src = data.author.avatar : avatar.src = '';
-    data.offer.title !== '' ? title.textContent = data.offer.title : title.textContent = '';
-    data.offer.address !== '' ? address.textContent = data.offer.address : address.textContent = '';
-    data.offer.price !== '' ?  price.textContent = data.offer.price + ' ₽/ночь' : price.textContent = '';
-    data.offer.type !== '' ?  type.textContent = data.offer.type : type.textContent = '';
-    data.offer.rooms !== '' && data.offer.rooms !== 0 ? roomsNumber.textContent = data.offer.rooms : roomsNumber.textContent = '';
-    data.offer.checkin !== '' && data.offer.checkin !== '0:00' ? check.textContent = 'Заезд после ' + data.offer.checkin + ', ' + ' выезд до ' + data.offer.checkout : check.textContent = '';
-    data.offer.features !== '' && data.offer.features !== 0 ?  features.textContent = data.offer.features.join(',') : features.textContent = '';
-    data.offer.description !== '' ?  description.textContent = data.offer.description : description.textContent = '';
-    data.offer.photos !== '' ? photos.replaceChild(template, img) : img.src = '';
+    if (data.author.avatar !== '') {
+      avatar.src = data.author.avatar;
+    } else {
+      avatar.src = '';
+    }
+    if (data.offer.title !== '') {
+      title.textContent = data.offer.title;
+    } else {
+      title.textContent = '';
+    }
+    if (data.offer.address !== '') {
+      address.textContent = data.offer.address;
+    } else {
+      address.textContent = '';
+    }
+    if (data.offer.price !== '') {
+      price.textContent = data.offer.price + ' ₽/ночь';
+    } else {
+      price.textContent = '';
+    }
+    if (data.offer.type !== '') {
+      type.textContent = data.offer.type;
+    } else {
+      type.textContent = '';
+    }
+    if (data.offer.rooms !== '' && data.offer.rooms !== 0) {
+      roomsNumber.textContent = data.offer.rooms;
+    } else {
+      roomsNumber.textContent = '';
+    }
+    if (data.offer.checkin !== '' && data.offer.checkin !== '0:00') {
+      check.textContent = 'Заезд после ' + data.offer.checkin + ', ' + ' выезд до ' + data.offer.checkout;
+    } else {
+      check.textContent = '';
+    }
+    if (data.offer.features !== '' && data.offer.features !== 0) {
+      features.textContent = data.offer.features.join(',');
+    } else {
+      features.textContent = '';
+    }
+    if (data.offer.description !== '') {
+      description.textContent = data.offer.description;
+    } else {
+      description.textContent = '';
+    }
+    if (data.offer.photos !== '') {
+      photos.replaceChild(template, img);
+    } else {
+      img.src = '';
+    }
     return clonedCard;
   };
 

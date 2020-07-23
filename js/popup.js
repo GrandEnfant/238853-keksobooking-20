@@ -3,23 +3,17 @@
 (function () {
   var filtersContainer = document.querySelector('.map__filters-container');
   var place = document.querySelector('.map');
-  var forms = document.querySelector('.ad-form');
   var close = function (popup, fromRemove) {
 
     var popupCard = document.querySelector(popup);
     if (popupCard) {
-      var  renderedPins = document.querySelectorAll('.rendered-pin')
+      var renderedPins = document.querySelectorAll('.rendered-pin');
       renderedPins.forEach(function (item) {
-        item.classList.remove('map__pin--active')
+        item.classList.remove('map__pin--active');
       });
       fromRemove.removeChild(popupCard);
       document.removeEventListener('click', close);
     }
-  };
-  var actionSuccess = function (evt) {
-    evt.preventDefault();
-    close('.success', place);
-    forms.reset();
   };
   var open = function (dataCard) {
     var popupCard = document.querySelector('.popup');
@@ -41,23 +35,13 @@
       }
     });
   };
+
   var openSuccessMessage = function () {
-    evt.preventDefault();
     var successMessage = document.querySelector('#success');
     var clonedSuccess = successMessage.content.cloneNode(true);
     place.appendChild(clonedSuccess);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.key === 'Escape') {
-        actionSuccess(evt);
-      }
-    });
-    document.addEventListener('click', function (evt) {
-      if (evt.button === 0) {
-        actionSuccess(evt);
-      }
-    });
-    console.log('open');
   };
+
   var openErrorMessage = function () {
     var errorPlace = document.querySelector('#error');
     var clonedError = errorPlace.content.cloneNode(true);
@@ -83,4 +67,5 @@
     openSuccessMessage: openSuccessMessage,
     openErrorMessage: openErrorMessage,
   };
+
 })();

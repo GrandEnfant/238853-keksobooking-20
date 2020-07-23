@@ -32,8 +32,9 @@
     xhr.responseType = 'json';
     xhr.addEventListener('load', function (evt) {
       if (xhr.status === StatusCode.OK) {
-        onSuccess(xhr.response);
         evt.preventDefault();
+        onSuccess(xhr.response);
+
       } else {
         onError(xhr.statusText);
       }
