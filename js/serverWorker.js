@@ -34,7 +34,6 @@
       if (xhr.status === StatusCode.OK) {
         evt.preventDefault();
         onSuccess(xhr.response);
-
       } else {
         onError(xhr.statusText);
       }

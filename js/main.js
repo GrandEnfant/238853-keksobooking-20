@@ -32,6 +32,7 @@
     window.map.disactive();
     var pinCoordinate = window.map.getCoordinate(pinCoordinateInit);
     window.form.fillAddress(pinCoordinate);
+    formsNode.reset();
   };
 
   window.form.setDisable(true);
@@ -156,11 +157,6 @@
   };
 
   pinNode.addEventListener('mousedown', fixCoordinates);
-  formsNode.addEventListener('submit', function (evt) {
-    evt.preventDefault();
-    onSubmit();
-  });
-
   formsNode.addEventListener('submit', function (evt) {
     evt.preventDefault();
     onSubmit();
