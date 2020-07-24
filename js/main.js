@@ -72,14 +72,14 @@
   var debounce = function (f) {
     var lastTimeout = null;
 
-   return function () {
-     if (lastTimeout) {
-       clearTimeout(lastTimeout);
-     }
-     lastTimeout = setTimeout(function () {
-       f.apply(null, arguments);
-     }, DEBOUNCE_INTERVAL);
-   };
+    return function () {
+      if (lastTimeout) {
+        clearTimeout(lastTimeout);
+      }
+      lastTimeout = setTimeout(function () {
+        f.apply(null, arguments);
+      }, DEBOUNCE_INTERVAL);
+    };
   };
 
   var applyActiveMode = function () {
@@ -97,11 +97,11 @@
         window.map.renderAds(filteredAdsFragment);
         addEventOnPins(filteredAds);
       };
+      var debouncedFilterAndRenderAds = debounce(filterAndRenderAds);
       var addEventOnFilters = function (elem) {
         elem.addEventListener('change', function () {
           window.popup.close('.popup', filtersContainerNode);
-          debounce(filterAndRenderAds);
-          //filterAndRenderAds();
+          debouncedFilterAndRenderAds();
         });
       };
       inputSelectorsNode.forEach(function (elem) {
