@@ -31,6 +31,7 @@
     var removePinsNode = document.querySelectorAll(deletedPins);
     removePinsNode.forEach(function (elem) {
       mapPinsNode.removeChild(elem);
+
     });
   };
 

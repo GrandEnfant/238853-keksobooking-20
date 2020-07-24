@@ -18,6 +18,9 @@
   var DEBOUNCE_INTERVAL = 500;
   var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
 
+  window.form.setDisable(true);
+  window.form.fillAddress(pinCoordinateString);
+
   var disactivePage = function () {
     window.form.setDisable(true);
     window.filters.drop();
@@ -28,15 +31,11 @@
     }
     pinNode.style.left = pinCoordinateInit.x;
     pinNode.style.top = pinCoordinateInit.y;
-    window.form.setDisable(true);
     window.map.disactive();
     var pinCoordinate = window.map.getCoordinate(pinCoordinateInit);
     window.form.fillAddress(pinCoordinate);
     formsNode.reset();
   };
-
-  window.form.setDisable(true);
-  window.form.fillAddress(pinCoordinateString);
 
   var fixCoordinates = function (evt) {
     evt.preventDefault();
