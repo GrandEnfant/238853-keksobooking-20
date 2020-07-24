@@ -68,15 +68,20 @@
       });
     });
   };
-  var debounce = function (cb) {
+
+  var debounce = function (f) {
     var lastTimeout = null;
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      cb();
-    }, DEBOUNCE_INTERVAL);
+
+   return function () {
+     if (lastTimeout) {
+       clearTimeout(lastTimeout);
+     }
+     lastTimeout = setTimeout(function () {
+       f.apply(null, arguments);
+     }, DEBOUNCE_INTERVAL);
+   };
   };
+
   var applyActiveMode = function () {
     window.form.setDisable(false);
     window.form.fillAddress(pinCoordinateString);
@@ -96,6 +101,7 @@
         elem.addEventListener('change', function () {
           window.popup.close('.popup', filtersContainerNode);
           debounce(filterAndRenderAds);
+          //filterAndRenderAds();
         });
       };
       inputSelectorsNode.forEach(function (elem) {
