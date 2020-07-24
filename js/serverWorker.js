@@ -30,8 +30,9 @@
   var sendData = function (data, onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-    xhr.addEventListener('load', function () {
+    xhr.addEventListener('load', function (evt) {
       if (xhr.status === StatusCode.OK) {
+        evt.preventDefault();
         onSuccess(xhr.response);
       } else {
         onError(xhr.statusText);

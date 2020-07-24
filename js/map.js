@@ -4,14 +4,22 @@
   var pinButton = document.querySelector('.map__pin');
   var mapPinsNode = document.querySelector('.map__pins');
   var mapNode = document.querySelector('.map');
+  var filters = document.querySelector('.map__filters');
   var pinSize = 65;
   var arrowHeight = 22;
+
+  var disactive = function () {
+    mapNode.classList.add('map--faded');
+    filters.disabled = true;
+  };
 
   var createAds = function (data, getPin) {
     var fragmentPins = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
-      var pin = getPin(pinButton, data[i], i);
-      fragmentPins.appendChild(pin);
+      if ('offer' in data[i]) {
+        var pin = getPin(pinButton, data[i], i);
+        fragmentPins.appendChild(pin);
+      }
     }
     return fragmentPins;
   };
@@ -23,6 +31,7 @@
     var removePinsNode = document.querySelectorAll(deletedPins);
     removePinsNode.forEach(function (elem) {
       mapPinsNode.removeChild(elem);
+
     });
   };
 
@@ -59,10 +68,10 @@
         y: pinButton.offsetTop - shift.y
       };
 
-      if (pinPosition.x >= pinSize - pinSize &&
-        pinPosition.x <= mapNode.clientWidth - pinSize &&
-        pinPosition.y >= mapNode.clientLeft &&
-        pinPosition.y <= mapNode.clientHeight - pinSize) {
+      if (pinPosition.x >= -pinSize / 2 &&
+        pinPosition.x <= mapNode.clientWidth - pinSize / 2 &&
+        pinPosition.y >= -(pinSize / 2 + 18) &&
+        pinPosition.y <= mapNode.clientHeight - (pinSize + 18)) {
 
         pinButton.style.left = pinPosition.x + 'px';
         pinButton.style.top = pinPosition.y + 'px';
@@ -93,5 +102,7 @@
     createAds: createAds,
     removePins: removePins,
     setPinOnInitial: setPinOnInitial,
+    disactive: disactive,
+    // dropHighlight: dropHighlight,
   };
 })();
