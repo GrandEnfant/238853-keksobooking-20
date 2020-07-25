@@ -7,7 +7,7 @@
   var PALACE_PRICE = 10000;
   var INCORRECT_PRICE = 1000000;
   var MIN_NUMBER_TITLE = 29;
-  var MAX_NUMBER_TITLE = 100;
+  var MAX_NUMBER_TITLE = 101;
   var TIME_EARLY = '12:00';
   var TIME_MIDDLE = '13:00';
   var TIME_LATE = '14:00';
@@ -41,13 +41,10 @@
   var enableTimeFields = function (caseValue) {
     for (var n = 0; n < timeoutOptions.length; n++) {
       if (timeoutOptions[n].value === caseValue || timeinOptions[n].value === caseValue) {
-        // timeoutOptions[n].disabled = false;
         timeoutOptions[n].selected = true;
         timeinOptions[n].selected = true;
-
         continue;
       }
-      // timeoutOptions[n].disabled = true;
     }
   };
 

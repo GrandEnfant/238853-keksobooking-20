@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
+  var PIN_SIZE = 65;
+  var ARROW_HEIGHT = 22;
   var pinButtonNode = document.querySelector('.map__pin');
   var mapPinsNode = document.querySelector('.map__pins');
   var mapNode = document.querySelector('.map');
   var filtersNode = document.querySelector('.map__filters');
-  var PIN_SIZE = 65;
-  var ARROW_HEIGHT = 22;
 
   var disactive = function () {
     mapNode.classList.add('map--faded');

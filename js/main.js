@@ -36,15 +36,17 @@
     window.form.fillAddress(pinCoordinate);
     formsNode.reset();
     window.form.removeInvalid();
+    pinNode.addEventListener('click', applyActiveMode);
+    pinNode.addEventListener('keydown', applyActiveMode);
   };
 
   var fixCoordinates = function (evt) {
     evt.preventDefault();
-    window.filters.drop();
     var newCoordinate = window.map.movePin(evt);
     pinCoordinateString = window.map.getCoordinate(newCoordinate);
     window.form.fillAddress(pinCoordinateString);
     pinNode.removeEventListener('mousedown', fixCoordinates);
+    pinNode.addEventListener('mousedown', fixCoordinates);
   };
 
   var openPinCard = function (evt, ads, item) {
@@ -84,7 +86,6 @@
   };
 
   var applyActiveMode = function () {
-
     window.form.setDisable(false);
     window.form.fillAddress(pinCoordinateString);
     window.serverWorker.loadData(function (ads) {
@@ -119,19 +120,11 @@
       var clonedError = errorPlace.content.cloneNode(true);
       pinNode.appendChild(clonedError);
     }, url);
+    pinNode.removeEventListener('click', applyActiveMode);
   };
 
-  pinNode.addEventListener('mousedown', function (evt) {
-    if (evt.button === 0) {
-      applyActiveMode();
-    }
-  });
-
-  pinNode.addEventListener('keydown', function (evt) {
-    if (evt.code === 'Enter') {
-      applyActiveMode();
-    }
-  });
+  pinNode.addEventListener('click', applyActiveMode);
+  pinNode.addEventListener('keydown', applyActiveMode);
 
   var dropPage = function (evt) {
     evt.preventDefault();
