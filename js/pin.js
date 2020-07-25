@@ -3,7 +3,7 @@
 (function () {
   window.pin = {
     generate: function (pin, data, id) {
-      var pinTemplate =  document.querySelector('#pin').content.querySelector('.map__pin');
+      var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
       var clonedElement = pinTemplate.cloneNode(true);
       var ClonedIMGNode = clonedElement.querySelector('img');
       clonedElement.style.left = data.location.x + ClonedIMGNode.width + 'px';

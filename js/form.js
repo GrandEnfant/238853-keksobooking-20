@@ -136,55 +136,55 @@
     return true;
   };
 
-  var highlightTypeHousing = function (price, typeHousing) {
-    price.classList.remove('invalid');
+  var highlightTypeHousing = function (priceItem, typeHousing) {
+    priceItem.classList.remove('invalid');
     submitButton.disabled = false;
-    var isValid = isValidePrice(price.value);
+    var isValid = isValidePrice(priceItem.value);
     if (!isValid) {
-      price.classList.add('invalid');
+      priceItem.classList.add('invalid');
       submitButton.disabled = true;
     }
     switch (typeHousing.value) {
       case ('bungalo'):
-        price.classList.remove('invalid');
-        price.placeholder = BUNGALO_PRICE;
+        priceItem.classList.remove('invalid');
+        priceItem.placeholder = BUNGALO_PRICE;
         if (!isValid) {
-          price.classList.add('invalid');
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
           return;
         }
         break;
       case ('flat'):
-        if (price.value < FLAT_PRICE) {
-          price.classList.add('invalid');
+        if (priceItem.value < FLAT_PRICE) {
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
-          price.placeholder = FLAT_PRICE;
+          priceItem.placeholder = FLAT_PRICE;
           if (!isValid) {
-            price.classList.add('invalid');
+            priceItem.classList.add('invalid');
             submitButton.disabled = true;
             return;
           }
         }
         break;
       case ('house'):
-        if (price.value < HOUSE_PRICE) {
-          price.classList.add('invalid');
+        if (priceItem.value < HOUSE_PRICE) {
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
-          price.placeholder = HOUSE_PRICE;
+          priceItem.placeholder = HOUSE_PRICE;
           if (!isValid) {
-            price.classList.add('invalid');
+            priceItem.classList.add('invalid');
             submitButton.disabled = true;
             return;
           }
         }
         break;
       case ('palace'):
-        if (price.value < PALACE_PRICE) {
-          price.classList.add('invalid');
+        if (priceItem.value < PALACE_PRICE) {
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
-          price.placeholder = PALACE_PRICE;
+          priceItem.placeholder = PALACE_PRICE;
           if (!isValid) {
-            price.classList.add('invalid');
+            priceItem.classList.add('invalid');
             submitButton.disabled = true;
             return;
           }
@@ -273,13 +273,13 @@
     price.placeholder = initPlaceHolder;
     capacityOptionsNode[2].selected = true;
   });
-var removeInvalid = function () {
-  inputsNode.forEach(function (item) {
-    item.classList.remove('invalid');
-  })
-  price.placeholder = initPlaceHolder;
-  capacityOptionsNode[2].selected = true;
-};
+  var removeInvalid = function () {
+    inputsNode.forEach(function (item) {
+      item.classList.remove('invalid');
+    });
+    price.placeholder = initPlaceHolder;
+    capacityOptionsNode[2].selected = true;
+  };
 
   window.form = {
     setDisable: setDisable,

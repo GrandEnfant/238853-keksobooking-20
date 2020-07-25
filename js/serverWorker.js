@@ -7,7 +7,7 @@
     OK: 200,
   };
 
-  var createRequest = function (onSuccess, onError, url) {
+  var createRequest = function (onSuccess, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.addEventListener('load', function () {
@@ -24,11 +24,11 @@
       onError('Время ожидания истекло');
     });
     xhr.timeout = TIMEOUT;
-    return xhr
-  }
+    return xhr;
+  };
 
   var loadData = function (onSuccess, onError, url) {
-    var xhr = createRequest(onSuccess, onError, url)
+    var xhr = createRequest(onSuccess, onError, url);
     xhr.open('GET', url);
     xhr.send();
   };

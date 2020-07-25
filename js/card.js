@@ -12,7 +12,7 @@
       var img = clonedPhotos.querySelector('img');
       img.src = elem;
       fragmentImgs.appendChild(img);
-    })
+    });
     return fragmentImgs;
   };
   var generate = function (data) {

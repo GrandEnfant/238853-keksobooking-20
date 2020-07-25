@@ -81,7 +81,7 @@
           y: pinButtonNode.style.top,
         };
 
-        window.form.fillAddress( getCoordinate(coordinate));
+        window.form.fillAddress(getCoordinate(coordinate));
       }
     };
     var onMouseUp = function (upEvt) {
