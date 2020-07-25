@@ -1,16 +1,27 @@
 'use strict';
 
 (function () {
-  var rooms = document.querySelector('#room_number');
-  var capacityOptions = document.querySelector('#capacity').options;
+  var BUNGALO_PRICE = 0;
+  var FLAT_PRICE = 1000;
+  var HOUSE_PRICE = 5000;
+  var PALACE_PRICE = 10000;
+  var INCORRECT_PRICE = 1000000;
+  var MIN_NUMBER_TITLE = 29;
+  var MAX_NUMBER_TITLE = 101;
+  var TIME_EARLY = '12:00';
+  var TIME_MIDDLE = '13:00';
+  var TIME_LATE = '14:00';
+
+  var roomsNode = document.querySelector('#room_number');
+  var capacityOptionsNode = document.querySelector('#capacity').options;
   var addressFieldNode = document.querySelector('#address');
   var formNode = document.querySelector('.ad-form');
   var inputsNode = formNode.querySelectorAll('input');
   var fieldsetNode = formNode.querySelectorAll('fieldset');
-  var resetBtn = document.querySelector('.ad-form__reset');
+  var resetBtnNode = document.querySelector('.ad-form__reset');
   var submitButton = document.querySelector('.ad-form__submit');
 
-  capacityOptions[2].selected = true;
+  capacityOptionsNode[2].selected = true;
 
   var setDisable = function (isActive) {
     if (!isActive) {
@@ -29,81 +40,79 @@
 
   var enableTimeFields = function (caseValue) {
     for (var n = 0; n < timeoutOptions.length; n++) {
-      if (timeoutOptions[n].value === caseValue) {
-        timeoutOptions[n].disabled = false;
+      if (timeoutOptions[n].value === caseValue || timeinOptions[n].value === caseValue) {
         timeoutOptions[n].selected = true;
+        timeinOptions[n].selected = true;
         continue;
       }
-      timeoutOptions[n].disabled = true;
     }
   };
 
   var disabledFieldRooms = function () {
-    switch (rooms.value) {
+    switch (roomsNode.value) {
       case ('1'): {
-        for (var j = 0; j < capacityOptions.length; j++) {
-          if (capacityOptions[j].value === '1') {
-            capacityOptions[j].disabled = false;
-            capacityOptions[j].selected = true;
+        for (var j = 0; j < capacityOptionsNode.length; j++) {
+          if (capacityOptionsNode[j].value === '1') {
+            capacityOptionsNode[j].disabled = false;
+            capacityOptionsNode[j].selected = true;
 
             continue;
           }
-          capacityOptions[j].disabled = true;
+          capacityOptionsNode[j].disabled = true;
         }
         break;
       }
       case ('2'): {
-        for (var k = 0; k < capacityOptions.length; k++) {
-          if (capacityOptions[k].value === '2' || capacityOptions[k].value === '1') {
-            capacityOptions[k].disabled = false;
-            capacityOptions[k].selected = true;
+        for (var k = 0; k < capacityOptionsNode.length; k++) {
+          if (capacityOptionsNode[k].value === '2' || capacityOptionsNode[k].value === '1') {
+            capacityOptionsNode[k].disabled = false;
+            capacityOptionsNode[k].selected = true;
             continue;
           }
-          capacityOptions[k].disabled = true;
+          capacityOptionsNode[k].disabled = true;
         }
         break;
       }
       case ('3'): {
-        for (var n = 0; n < capacityOptions.length; n++) {
-          if (capacityOptions[n].value === '2' || capacityOptions[n].value === '1' || capacityOptions[n].value === '3') {
-            capacityOptions[n].disabled = false;
-            capacityOptions[n].selected = true;
+        for (var n = 0; n < capacityOptionsNode.length; n++) {
+          if (capacityOptionsNode[n].value === '2' || capacityOptionsNode[n].value === '1' || capacityOptionsNode[n].value === '3') {
+            capacityOptionsNode[n].disabled = false;
+            capacityOptionsNode[n].selected = true;
             continue;
           }
-          capacityOptions[n].disabled = true;
+          capacityOptionsNode[n].disabled = true;
         }
         break;
       }
       case ('100'): {
-        for (var m = 0; m < capacityOptions.length; m++) {
-          if (capacityOptions[m].value === '0') {
-            capacityOptions[m].disabled = false;
-            capacityOptions[m].selected = true;
+        for (var m = 0; m < capacityOptionsNode.length; m++) {
+          if (capacityOptionsNode[m].value === '0') {
+            capacityOptionsNode[m].disabled = false;
+            capacityOptionsNode[m].selected = true;
             continue;
           }
-          capacityOptions[m].disabled = true;
+          capacityOptionsNode[m].disabled = true;
         }
         break;
       }
     }
   };
+  disabledFieldRooms();
   var adTitle = document.querySelector('#title');
   var price = document.querySelector('#price');
   var timein = document.querySelector('#timein');
   var timeout = document.querySelector('#timeout');
   var timeoutOptions = timeout.querySelectorAll('option');
+  var timeinOptions = timein.querySelectorAll('option');
   var photoFile = document.querySelector('#images');
   var type = document.querySelector('#type');
   photoFile.accept = '.jpg, .png';
-
+  var initPlaceHolder = price.placeholder;
   var highlightAdTitle = function (value) {
     if (!((/[a-zA-Zа-яА-Я]/).test(value))) {
       adTitle.classList.add('invalid');
       submitButton.disabled = true;
-    } else if (value.length <= 30 || value.length >= 100) {
-      adTitle.classList.add('invalid');
-      submitButton.disabled = true;
-    } else if ((/[0-9]/).test(value)) {
+    } else if (value.length <= MIN_NUMBER_TITLE || value.length >= MAX_NUMBER_TITLE) {
       adTitle.classList.add('invalid');
       submitButton.disabled = true;
     } else {
@@ -112,59 +121,88 @@
     }
   };
 
-  var highlightPrice = function (value) {
-    if ((/[0-1]/).test(value)) {
-      price.classList.add('invalid');
-      submitButton.disabled = true;
-    } else if (value > 1000000) {
-      price.classList.add('invalid');
-      submitButton.disabled = true;
+  var isValidePrice = function (value) {
+    value = parseInt(value, 10);
+    if (!(/[0-9]/).test(value)) {
+      return false;
+    } else if (value >= INCORRECT_PRICE) {
+      return false;
     } else if (value.length === 0) {
-      price.classList.add('invalid');
-      submitButton.disabled = true;
+      return false;
     }
+    return true;
   };
 
-  var highlightTypeHousing = function (typeHousing) {
-    price.classList.remove('invalid');
+  var highlightTypeHousing = function (priceItem, typeHousing) {
+    priceItem.classList.remove('invalid');
     submitButton.disabled = false;
+    var isValid = isValidePrice(priceItem.value);
+    if (!isValid) {
+      priceItem.classList.add('invalid');
+      submitButton.disabled = true;
+    }
     switch (typeHousing.value) {
       case ('bungalo'):
-        price.classList.remove('invalid');
+        priceItem.classList.remove('invalid');
+        priceItem.placeholder = BUNGALO_PRICE;
+        if (!isValid) {
+          priceItem.classList.add('invalid');
+          submitButton.disabled = true;
+          return;
+        }
         break;
       case ('flat'):
-        if (price.value < 1000) {
-          price.classList.add('invalid');
+        if (priceItem.value < FLAT_PRICE) {
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
+          priceItem.placeholder = FLAT_PRICE;
+          if (!isValid) {
+            priceItem.classList.add('invalid');
+            submitButton.disabled = true;
+            return;
+          }
         }
         break;
       case ('house'):
-        if (price.value < 5000) {
-          price.classList.add('invalid');
+        if (priceItem.value < HOUSE_PRICE) {
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
+          priceItem.placeholder = HOUSE_PRICE;
+          if (!isValid) {
+            priceItem.classList.add('invalid');
+            submitButton.disabled = true;
+            return;
+          }
         }
         break;
       case ('palace'):
-        if (price.value < 10000) {
-          price.classList.add('invalid');
+        if (priceItem.value < PALACE_PRICE) {
+          priceItem.classList.add('invalid');
           submitButton.disabled = true;
+          priceItem.placeholder = PALACE_PRICE;
+          if (!isValid) {
+            priceItem.classList.add('invalid');
+            submitButton.disabled = true;
+            return;
+          }
         }
         break;
     }
+
   };
 
-  var disabledTimeField = function (time) {
+  var selectTimeField = function (time) {
     switch (time.value) {
-      case ('12:00'): {
-        enableTimeFields('12:00');
+      case (TIME_EARLY): {
+        enableTimeFields(TIME_EARLY);
         break;
       }
-      case ('13:00'): {
-        enableTimeFields('13:00');
+      case (TIME_MIDDLE): {
+        enableTimeFields(TIME_MIDDLE);
         break;
       }
-      case ('14:00'): {
-        enableTimeFields('14:00');
+      case (TIME_LATE): {
+        enableTimeFields(TIME_LATE);
         break;
       }
     }
@@ -185,30 +223,30 @@
   });
 
   price.addEventListener('blur', function () {
-    highlightPrice(price.value);
+    highlightTypeHousing(price, type);
   });
 
   type.addEventListener('change', function () {
     price.classList.remove('invalid');
     submitButton.disabled = false;
-    highlightTypeHousing(type);
+    highlightTypeHousing(price, type);
   });
   price.addEventListener('blur', function () {
     price.classList.remove('invalid');
     submitButton.disabled = false;
-    highlightTypeHousing(price);
+    highlightTypeHousing(price, type);
   });
   timein.addEventListener('change', function () {
     timein.classList.remove('invalid');
     submitButton.disabled = false;
-    disabledTimeField(timein);
+    selectTimeField(timein);
   });
-  timeout.addEventListener('blur', function () {
+  timeout.addEventListener('change', function () {
     timeout.classList.remove('invalid');
     submitButton.disabled = false;
-    disabledTimeField(timeout);
+    selectTimeField(timeout);
   });
-  rooms.addEventListener('change', function () {
+  roomsNode.addEventListener('change', function () {
     disabledFieldRooms();
   });
 
@@ -227,14 +265,24 @@
       }
     }
   };
-  resetBtn.addEventListener('click', function () {
+  resetBtnNode.addEventListener('click', function () {
     formNode.reset();
+    price.placeholder = initPlaceHolder;
+    capacityOptionsNode[2].selected = true;
   });
+  var removeInvalid = function () {
+    inputsNode.forEach(function (item) {
+      item.classList.remove('invalid');
+    });
+    price.placeholder = initPlaceHolder;
+    capacityOptionsNode[2].selected = true;
+  };
 
   window.form = {
     setDisable: setDisable,
     fillAddress: fillAddress,
     validate: validate,
     pointEmptyFields: pointEmptyFields,
+    removeInvalid: removeInvalid
   };
 })();
