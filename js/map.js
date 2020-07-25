@@ -1,47 +1,47 @@
 'use strict';
 
 (function () {
-  var pinButton = document.querySelector('.map__pin');
+  var pinButtonNode = document.querySelector('.map__pin');
   var mapPinsNode = document.querySelector('.map__pins');
   var mapNode = document.querySelector('.map');
-  var filters = document.querySelector('.map__filters');
-  var pinSize = 65;
-  var arrowHeight = 22;
+  var filtersNode = document.querySelector('.map__filters');
+  var PIN_SIZE = 65;
+  var ARROW_HEIGHT = 22;
 
   var disactive = function () {
     mapNode.classList.add('map--faded');
-    filters.disabled = true;
+    filtersNode.disabled = true;
   };
 
   var createAds = function (data, getPin) {
     var fragmentPins = document.createDocumentFragment();
     for (var i = 0; i < data.length; i++) {
       if ('offer' in data[i]) {
-        var pin = getPin(pinButton, data[i], i);
+        var pin = getPin(pinButtonNode, data[i], i);
         fragmentPins.appendChild(pin);
       }
     }
     return fragmentPins;
   };
   var renderAds = function (fragmentPins) {
-    mapPinsNode.appendChild(fragmentPins);
     mapNode.classList.remove('map--faded');
+    mapPinsNode.appendChild(fragmentPins);
+
   };
   var removePins = function (deletedPins) {
     var removePinsNode = document.querySelectorAll(deletedPins);
     removePinsNode.forEach(function (elem) {
       mapPinsNode.removeChild(elem);
-
     });
   };
 
   var initialCoordinate = {
-    x: pinButton.style.left,
-    y: pinButton.style.top,
+    x: pinButtonNode.style.left,
+    y: pinButtonNode.style.top,
   };
   var setPinOnInitial = function () {
-    pinButton.style.left = initialCoordinate.x;
-    pinButton.style.top = initialCoordinate.y;
+    pinButtonNode.style.left = initialCoordinate.x;
+    pinButtonNode.style.top = initialCoordinate.y;
   };
 
   var movePin = function (evt) {
@@ -64,17 +64,24 @@
       };
 
       var pinPosition = {
-        x: pinButton.offsetLeft - shift.x,
-        y: pinButton.offsetTop - shift.y
+        x: pinButtonNode.offsetLeft - shift.x,
+        y: pinButtonNode.offsetTop - shift.y
       };
 
-      if (pinPosition.x >= -pinSize / 2 &&
-        pinPosition.x <= mapNode.clientWidth - pinSize / 2 &&
-        pinPosition.y >= -(pinSize / 2 + 18) &&
-        pinPosition.y <= mapNode.clientHeight - (pinSize + 18)) {
+      if (pinPosition.x >= -PIN_SIZE / 2 &&
+        pinPosition.x <= mapNode.clientWidth - PIN_SIZE / 2 &&
+        pinPosition.y >= -(PIN_SIZE / 2 + 18) &&
+        pinPosition.y <= mapNode.clientHeight - (PIN_SIZE + 18)) {
 
-        pinButton.style.left = pinPosition.x + 'px';
-        pinButton.style.top = pinPosition.y + 'px';
+        pinButtonNode.style.left = pinPosition.x + 'px';
+        pinButtonNode.style.top = pinPosition.y + 'px';
+
+        var coordinate = {
+          x: pinButtonNode.style.left,
+          y: pinButtonNode.style.top,
+        };
+
+        window.form.fillAddress( getCoordinate(coordinate));
       }
     };
     var onMouseUp = function (upEvt) {
@@ -86,13 +93,13 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
     var coordinate = {
-      x: pinButton.style.left,
-      y: pinButton.style.top,
+      x: pinButtonNode.style.left,
+      y: pinButtonNode.style.top,
     };
     return coordinate;
   };
   var getCoordinate = function (coodinate) {
-    return parseInt(coodinate.x, 10) + ', ' + (parseInt(coodinate.y, 10) + pinSize + arrowHeight);
+    return parseInt(coodinate.x, 10) + ', ' + (parseInt(coodinate.y, 10) + PIN_SIZE + ARROW_HEIGHT);
   };
 
   window.map = {
@@ -103,6 +110,5 @@
     removePins: removePins,
     setPinOnInitial: setPinOnInitial,
     disactive: disactive,
-    // dropHighlight: dropHighlight,
   };
 })();

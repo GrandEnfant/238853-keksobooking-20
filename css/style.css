@@ -290,7 +290,7 @@ fieldset {
           transform: rotate(-20deg) scale(1);
 }
 
-.map--faded .map__pin--main::after {
+.map--faded .map__pin--main ::after {
   -webkit-transform: translate(-50%, -30px);
       -ms-transform: translate(-50%, -30px);
           transform: translate(-50%, -30px);

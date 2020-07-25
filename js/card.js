@@ -6,13 +6,13 @@
   var getPhotos = function (data) {
     var fragmentImgs = document.createDocumentFragment();
     var photos = data.offer.photos;
-    for (var j = 0; j < photos.length; j++) {
+    photos.forEach(function (elem) {
       var clonedCard = card.content.cloneNode(true);
       var clonedPhotos = clonedCard.querySelector('.popup__photos');
       var img = clonedPhotos.querySelector('img');
-      img.src = photos[j];
+      img.src = elem;
       fragmentImgs.appendChild(img);
-    }
+    })
     return fragmentImgs;
   };
   var generate = function (data) {

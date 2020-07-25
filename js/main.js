@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_INTERVAL = 500;
   var ADS_NUMBER = 5;
   var url = 'https://javascript.pages.academy/keksobooking/data';
   var pinNode = document.querySelector('.map__pin--main');
@@ -10,12 +11,11 @@
   var filterSelectorsNode = filtersNode.querySelectorAll('select');
   var inputSelectorsNode = filtersNode.querySelectorAll('input');
   var resetBtnNode = document.querySelector('.ad-form__reset');
-  var place = document.querySelector('.map');
+  var placeNode = document.querySelector('.map');
   var pinCoordinateInit = {
     x: pinNode.style.left,
     y: pinNode.style.top,
   };
-  var DEBOUNCE_INTERVAL = 500;
   var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
 
   window.form.setDisable(true);
@@ -35,11 +35,12 @@
     var pinCoordinate = window.map.getCoordinate(pinCoordinateInit);
     window.form.fillAddress(pinCoordinate);
     formsNode.reset();
+    window.form.removeInvalid();
   };
 
   var fixCoordinates = function (evt) {
     evt.preventDefault();
-    window.popup.close('.popup', filtersContainerNode);
+    window.filters.drop();
     var newCoordinate = window.map.movePin(evt);
     pinCoordinateString = window.map.getCoordinate(newCoordinate);
     window.form.fillAddress(pinCoordinateString);
@@ -83,6 +84,7 @@
   };
 
   var applyActiveMode = function () {
+
     window.form.setDisable(false);
     window.form.fillAddress(pinCoordinateString);
     window.serverWorker.loadData(function (ads) {
@@ -133,7 +135,7 @@
 
   var dropPage = function (evt) {
     evt.preventDefault();
-    window.popup.close('.success', place);
+    window.popup.close('.success', placeNode);
     disactivePage();
     document.removeEventListener('click', onCloseListener);
     document.removeEventListener('keydown', onCloseListener);

@@ -3,8 +3,10 @@
 (function () {
   var filtersContainer = document.querySelector('.map__filters-container');
   var place = document.querySelector('.map');
-  var close = function (popup, fromRemove) {
+  var successMessage = document.querySelector('#success');
+  var errorPlace = document.querySelector('#error');
 
+  var close = function (popup, fromRemove) {
     var popupCard = document.querySelector(popup);
     if (popupCard) {
       var renderedPins = document.querySelectorAll('.rendered-pin');
@@ -37,13 +39,11 @@
   };
 
   var openSuccessMessage = function () {
-    var successMessage = document.querySelector('#success');
     var clonedSuccess = successMessage.content.cloneNode(true);
     place.appendChild(clonedSuccess);
   };
 
   var openErrorMessage = function () {
-    var errorPlace = document.querySelector('#error');
     var clonedError = errorPlace.content.cloneNode(true);
     place.appendChild(clonedError);
     var closeBtn = document.querySelector('.error__button');
