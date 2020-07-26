@@ -79,7 +79,7 @@
         pinButtonNode.style.top = pinPosition.y + 'px';
 
         var coordinateMove = {
-          x: parseInt(pinButtonNode.style.left, 10) + PIN_SIZE/2,
+          x: parseInt(pinButtonNode.style.left, 10) + PIN_SIZE / 2,
           y: parseInt(pinButtonNode.style.top, 10) - PIN_SIZE - ARROW_HEIGHT,
         };
 
@@ -95,7 +95,7 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
     var coordinate = {
-      x: parseInt(pinButtonNode.style.left, 10) + PIN_SIZE/2,
+      x: parseInt(pinButtonNode.style.left, 10) + PIN_SIZE / 2,
       y: parseInt(pinButtonNode.style.top, 10) - PIN_SIZE - ARROW_HEIGHT,
     };
     return coordinate;
