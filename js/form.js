@@ -30,22 +30,21 @@
     } else {
       formNode.classList.add('ad-form--disabled');
     }
-    for (var l = 0; l < fieldsetNode.length; l++) {
-      fieldsetNode[l].disabled = isActive;
-    }
+    fieldsetNode.forEach(function (elem) {
+      elem.disabled = isActive;
+    });
   };
   var fillAddress = function (pinCoordinate) {
     addressFieldNode.value = pinCoordinate;
   };
 
   var enableTimeFields = function (caseValue) {
-    for (var n = 0; n < timeoutOptions.length; n++) {
-      if (timeoutOptions[n].value === caseValue || timeinOptions[n].value === caseValue) {
-        timeoutOptions[n].selected = true;
-        timeinOptions[n].selected = true;
-        continue;
+    timeoutOptions.forEach(function (elem, i) {
+      if (elem.value === caseValue || timeinOptions[i].value === caseValue) {
+        elem.selected = true;
+        timeinOptions[i].selected = true;
       }
-    }
+    });
   };
 
   var disabledFieldRooms = function () {
@@ -187,7 +186,6 @@
         }
         break;
     }
-
   };
 
   var selectTimeField = function (time) {
@@ -258,11 +256,11 @@
   };
   price.placeholder = FLAT_PRICE;
   var pointEmptyFields = function () {
-    for (var i = 0; i < inputsNode.length; i++) {
-      if (inputsNode[i].required && inputsNode[i].value === '') {
-        inputsNode[i].classList.add('invalid');
+    inputsNode.forEach(function (elem) {
+      if (elem.required && elem.value === '') {
+        elem.classList.add('invalid');
       }
-    }
+    });
   };
 
   var reloadPage = function () {

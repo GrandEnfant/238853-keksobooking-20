@@ -17,12 +17,12 @@
 
   var createAds = function (data, getPin) {
     var fragmentPins = document.createDocumentFragment();
-    for (var i = 0; i < data.length; i++) {
-      if ('offer' in data[i]) {
-        var pin = getPin(pinButtonNode, data[i], i);
+    data.forEach(function (elem, i) {
+      if ('offer' in elem) {
+        var pin = getPin(pinButtonNode, elem, i);
         fragmentPins.appendChild(pin);
       }
-    }
+    });
     return fragmentPins;
   };
   var renderAds = function (fragmentPins) {

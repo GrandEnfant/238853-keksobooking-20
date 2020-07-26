@@ -25,9 +25,9 @@
     window.filters.drop();
     window.popup.close('.popup', filtersContainerNode);
     var renderedPinsNode = document.querySelectorAll('.rendered-pin');
-    for (var i = 0; i < renderedPinsNode.length; i++) {
+    renderedPinsNode.forEach(function () {
       window.map.removePins('.rendered-pin');
-    }
+    });
     pinNode.style.left = pinCoordinateInit.x;
     pinNode.style.top = pinCoordinateInit.y;
     window.map.disactive();
