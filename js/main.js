@@ -3,7 +3,7 @@
 (function () {
   var DEBOUNCE_INTERVAL = 500;
   var ADS_NUMBER = 5;
-  var url = 'https://javascript.pages.academy/keksobooking/data';
+  var URL = 'https://javascript.pages.academy/keksobooking/data';
   var pinNode = document.querySelector('.map__pin--main');
   var formsNode = document.querySelector('.ad-form');
   var filtersContainerNode = document.querySelector('.map__filters-container');
@@ -17,9 +17,8 @@
     y: pinNode.style.top,
   };
   var pinCoordinateString = window.map.getCoordinate(pinCoordinateInit);
-
-  window.form.setDisable(true);
   window.form.fillAddress(pinCoordinateString);
+  window.form.setDisable(true);
 
   var disactivePage = function () {
     window.form.setDisable(true);
@@ -36,7 +35,7 @@
     window.form.fillAddress(pinCoordinate);
     formsNode.reset();
     window.form.removeInvalid();
-    pinNode.addEventListener('click', applyActiveMode);
+    pinNode.addEventListener('mousedown', applyActiveMode);
     pinNode.addEventListener('keydown', applyActiveMode);
   };
 
@@ -119,11 +118,11 @@
       var errorPlace = document.querySelector('#error');
       var clonedError = errorPlace.content.cloneNode(true);
       pinNode.appendChild(clonedError);
-    }, url);
-    pinNode.removeEventListener('click', applyActiveMode);
+    }, URL);
+    pinNode.removeEventListener('mousedown', applyActiveMode);
   };
 
-  pinNode.addEventListener('click', applyActiveMode);
+  pinNode.addEventListener('mousedown', applyActiveMode);
   pinNode.addEventListener('keydown', applyActiveMode);
 
   var dropPage = function (evt) {
@@ -132,6 +131,7 @@
     disactivePage();
     document.removeEventListener('click', onCloseListener);
     document.removeEventListener('keydown', onCloseListener);
+    window.form.reloadPage();
   };
 
   var onCloseListener = function (evt) {

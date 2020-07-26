@@ -1,8 +1,10 @@
 'use strict';
 
 (function () {
-  var PIN_SIZE = 65;
-  var ARROW_HEIGHT = 22;
+  var PIN_SIZE = 66;
+  var ARROW_HEIGHT = 16;
+  var MAIN_PIN_MIN_Y = 130;
+  var MAIN_PIN_MAX_Y = 630;
   var pinButtonNode = document.querySelector('.map__pin');
   var mapPinsNode = document.querySelector('.map__pins');
   var mapNode = document.querySelector('.map');
@@ -70,18 +72,18 @@
 
       if (pinPosition.x >= -PIN_SIZE / 2 &&
         pinPosition.x <= mapNode.clientWidth - PIN_SIZE / 2 &&
-        pinPosition.y >= -(PIN_SIZE / 2 + 18) &&
-        pinPosition.y <= mapNode.clientHeight - (PIN_SIZE + 18)) {
+        pinPosition.y >= MAIN_PIN_MIN_Y &&
+        pinPosition.y <= MAIN_PIN_MAX_Y) {
 
         pinButtonNode.style.left = pinPosition.x + 'px';
         pinButtonNode.style.top = pinPosition.y + 'px';
 
-        var coordinate = {
-          x: pinButtonNode.style.left,
-          y: pinButtonNode.style.top,
+        var coordinateMove = {
+          x: parseInt(pinButtonNode.style.left, 10) + PIN_SIZE/2,
+          y: parseInt(pinButtonNode.style.top, 10) - PIN_SIZE - ARROW_HEIGHT,
         };
 
-        window.form.fillAddress(getCoordinate(coordinate));
+        window.form.fillAddress(getCoordinate(coordinateMove));
       }
     };
     var onMouseUp = function (upEvt) {
@@ -93,8 +95,8 @@
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
     var coordinate = {
-      x: pinButtonNode.style.left,
-      y: pinButtonNode.style.top,
+      x: parseInt(pinButtonNode.style.left, 10) + PIN_SIZE/2,
+      y: parseInt(pinButtonNode.style.top, 10) - PIN_SIZE - ARROW_HEIGHT,
     };
     return coordinate;
   };

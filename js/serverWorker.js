@@ -2,7 +2,7 @@
 
 (function () {
   var TIMEOUT = 10000;
-  var urlSend = 'https://javascript.pages.academy/keksobooking';
+  var URL_SEND = 'https://javascript.pages.academy/keksobooking';
   var StatusCode = {
     OK: 200,
   };
@@ -34,8 +34,8 @@
   };
 
   var sendData = function (data, onSuccess, onError) {
-    var xhr = createRequest(onSuccess, onError, urlSend);
-    xhr.open('POST', urlSend);
+    var xhr = createRequest(onSuccess, onError, URL_SEND);
+    xhr.open('POST', URL_SEND);
     xhr.send(data);
   };
 

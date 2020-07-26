@@ -107,7 +107,6 @@
   var photoFile = document.querySelector('#images');
   var type = document.querySelector('#type');
   photoFile.accept = '.jpg, .png';
-  var initPlaceHolder = price.placeholder;
   var highlightAdTitle = function (value) {
     if (!((/[a-zA-Zа-яА-Я]/).test(value))) {
       adTitle.classList.add('invalid');
@@ -257,7 +256,7 @@
       }
     } return true;
   };
-
+  price.placeholder = FLAT_PRICE;
   var pointEmptyFields = function () {
     for (var i = 0; i < inputsNode.length; i++) {
       if (inputsNode[i].required && inputsNode[i].value === '') {
@@ -265,17 +264,20 @@
       }
     }
   };
-  resetBtnNode.addEventListener('click', function () {
+
+  var reloadPage = function () {
     formNode.reset();
-    price.placeholder = initPlaceHolder;
+    price.placeholder = FLAT_PRICE;
     capacityOptionsNode[2].selected = true;
+  };
+  resetBtnNode.addEventListener('click', function () {
+    reloadPage();
   });
   var removeInvalid = function () {
     inputsNode.forEach(function (item) {
       item.classList.remove('invalid');
     });
-    price.placeholder = initPlaceHolder;
-    capacityOptionsNode[2].selected = true;
+    reloadPage();
   };
 
   window.form = {
@@ -283,6 +285,7 @@
     fillAddress: fillAddress,
     validate: validate,
     pointEmptyFields: pointEmptyFields,
-    removeInvalid: removeInvalid
+    removeInvalid: removeInvalid,
+    reloadPage: reloadPage,
   };
 })();
