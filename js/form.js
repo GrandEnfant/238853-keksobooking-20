@@ -54,7 +54,6 @@
           if (capacityOptionsNode[j].value === '1') {
             capacityOptionsNode[j].disabled = false;
             capacityOptionsNode[j].selected = true;
-
             continue;
           }
           capacityOptionsNode[j].disabled = true;
@@ -96,6 +95,7 @@
       }
     }
   };
+
   disabledFieldRooms();
   var adTitle = document.querySelector('#title');
   var price = document.querySelector('#price');
@@ -246,7 +246,6 @@
   roomsNode.addEventListener('change', function () {
     disabledFieldRooms();
   });
-
   var validate = function () {
     for (var i = 0; i < inputsNode.length; i++) {
       if (inputsNode[i].required && inputsNode[i].value === '' || inputsNode[i].classList.contains('invalid')) {
@@ -263,19 +262,20 @@
     });
   };
 
-  var reloadPage = function () {
+  var reset = function () {
     formNode.reset();
     price.placeholder = FLAT_PRICE;
     capacityOptionsNode[2].selected = true;
+    capacityOptionsNode[1].disabled = true;
   };
   resetBtnNode.addEventListener('click', function () {
-    reloadPage();
+    reset();
   });
   var removeInvalid = function () {
     inputsNode.forEach(function (item) {
       item.classList.remove('invalid');
     });
-    reloadPage();
+    reset();
   };
 
   window.form = {
@@ -284,6 +284,6 @@
     validate: validate,
     pointEmptyFields: pointEmptyFields,
     removeInvalid: removeInvalid,
-    reloadPage: reloadPage,
+    reloadPage: reset,
   };
 })();
